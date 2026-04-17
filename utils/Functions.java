@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import model.Airport;
 import model.Flight;
+import service.RouteMap;
 
 public class Functions {
   private Functions() {
@@ -17,7 +18,7 @@ public class Functions {
 
   // PRE:
   // POST:
-  public static void loadSystem(Map<Airport, List<Flight>> routes, PrintWriter reportFile, PrintWriter errorFile) {
+  public static void loadSystem(RouteMap routeMap, PrintWriter reportFile, PrintWriter errorFile) {
     List<Airport> airports = new ArrayList<>();
     List<Flight> flights = new ArrayList<>();
 
@@ -27,25 +28,23 @@ public class Functions {
 
     // Initialize map with all airports
     for (Airport airport : airports) {
-      routes.putIfAbsent(airport, new ArrayList<>());
+      routeMap.addAirport(airport);
     }
 
     // Populate flights
     for (Flight flight : flights) {
+      routeMap.addFlight(flight);
       Airport src = flight.getSource();
-      if (src != null && routes.containsKey(src)) {
-        routes.get(src).add(flight);
-      }
     }
 
     // loaded routes
-    Functions.displayRoutes(routes, reportFile, errorFile);
+    Functions.displayRoutes(routeMap, reportFile, errorFile);
 
   }
 
   // PRE: routes map, reportFile and errorFile ready to use
   // POST: routes are printed to the console and report file in a formatted manner
-  public static void displayRoutes(Map<Airport, List<Flight>> routes, PrintWriter reportFile, PrintWriter errorFile) {
+  public static void displayRoutes(RouteMap routeMap, PrintWriter reportFile, PrintWriter errorFile) {
     JFrame window = new JFrame("Flight Route Visualizer");
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     window.setSize(1200, 800);
@@ -53,16 +52,16 @@ public class Functions {
 
     int cols = 3; // Number of columns in our "invisible grid"
     int cellWidth = window.getWidth() / cols;
-    int cellHeight = window.getHeight() / ((routes.size() / cols) + 1);
+    int cellHeight = window.getHeight() / ((routeMap.getTotalAirportsCount() / cols) + 1);
 
-    Graph gui = new Graph();
+    DrawGraph gui = new DrawGraph();
     window.add(gui);
 
     // track airport index
     Map<Airport, Integer> airportToIndex = new HashMap<>();
     int index = 0;
 
-    for (Airport airport : routes.keySet()) {
+    for (Airport airport : routeMap.getAllAirports()) {
       if (airport.getCode().equalsIgnoreCase("code"))
         continue;
 
@@ -79,14 +78,12 @@ public class Functions {
     }
 
     // Log and add edges
-    routes.forEach((airport, flightList) -> {
-      String code = airport.getCode();
-      String city = airport.getCity();
-      String country = airport.getCountry();
+    for (Airport airport : routeMap.getAllAirports()) {
       int srcIdx = airportToIndex.get(airport);
+      List<Flight> flightList = routeMap.getDirectConnections(airport);
 
       // Print airport information
-      String title = "Airport " + code + ": " + city + ", " + country;
+      String title = "Airport " + airport.getCode() + ": " + airport.getCity() + ", " + airport.getCountry();
 
       Functions.sectionHeader(title, reportFile);
 
@@ -94,14 +91,13 @@ public class Functions {
         reportFile.println(flight.toString());
 
         Integer destIdx = airportToIndex.get(flight.getDestination());
-
         if (destIdx != null) {
           gui.addEdge(srcIdx, destIdx, "$" + flight.getPrice());
         }
       }
       reportFile.println("\n\n");
+    }
 
-    });
     System.out.println("Loaded routes...\n");
 
     // Show window

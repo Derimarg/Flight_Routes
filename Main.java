@@ -1,16 +1,12 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import model.Airport;
-import model.Flight;
+import service.RouteMap;
 import utils.Functions;
 
 public class Main {
   public static void main(String[] args) {
     // Hold flights network
-    Map<Airport, List<Flight>> routes = new HashMap<>();
+    RouteMap routeMap = new RouteMap();
 
     String errorFileName = "error.txt";
     String reportFileName = "report.txt";
@@ -21,7 +17,7 @@ public class Main {
         PrintWriter reportFile = new PrintWriter(reportFileName);) {
 
       // load all airports and flights data into the system
-      Functions.loadSystem(routes, reportFile, errorFile);
+      Functions.loadSystem(routeMap, reportFile, errorFile);
 
       // show error if file management process fails
     } catch (FileNotFoundException e) {

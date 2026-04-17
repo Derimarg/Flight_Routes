@@ -1,55 +1,55 @@
 code,city,country
-ACK,City_ACK,USA
-ACY,City_ACY,USA
-ADQ,City_ADQ,USA
-AGS,City_AGS,USA
-AKN,City_AKN,USA
-ANU,City_ANU,USA
-AVL,City_AVL,USA
-AZI,City_AZI,USA
-BNA,City_BNA,USA
-BTS,City_BTS,USA
-CSX,City_CSX,USA
-CTA,City_CTA,USA
-DXB,City_DXB,USA
-EVN,City_EVN,USA
-GUA,City_GUA,USA
-GUC,City_GUC,USA
-HUX,City_HUX,USA
-JAN,City_JAN,USA
-JFK,City_JFK,USA
-JNB,City_JNB,USA
-LBA,City_LBA,USA
-LIT,City_LIT,USA
-LPA,City_LPA,USA
-MCI,City_MCI,USA
-MCO,City_MCO,USA
-MDW,City_MDW,USA
-MFE,City_MFE,USA
-MGW,City_MGW,USA
-MIA,City_MIA,USA
-MKC,City_MKC,USA
-MQT,City_MQT,USA
-ORD,City_ORD,USA
-ORH,City_ORH,USA
-PHL,City_PHL,USA
-PIA,City_PIA,USA
-PMI,City_PMI,USA
-PSG,City_PSG,USA
-PUJ,City_PUJ,USA
-PUS,City_PUS,USA
-RBA,City_RBA,USA
-RMO,City_RMO,USA
-SDR,City_SDR,USA
-SIN,City_SIN,USA
-SJU,City_SJU,USA
-SUX,City_SUX,USA
-TAO,City_TAO,USA
-TSA,City_TSA,USA
-TUP,City_TUP,USA
-VAV,City_VAV,USA
-VCP,City_VCP,USA
-WRI,City_WRI,USA
-YBL,City_YBL,USA
-YXU,City_YXU,USA
-ZCL,City_ZCL,USA
+ACK,Nantucket,USA
+ACY,Atlantic City,USA
+ADQ,Kodiak,USA
+AGS,Augusta,USA
+AKN,King Salmon,USA
+ANU,Antigua,ATG
+AVL,Asheville,USA
+AZI,Abu Dhabi,ARE
+BNA,Nashville,USA
+BTS,Bratislava,SVK
+CSX,Changsha,CHN
+CTA,Catania,ITA
+DXB,Dubai,ARE
+EVN,Yerevan,ARM
+GUA,Guatemala City,GTM
+GUC,Gunnison,USA
+HUX,Huatulco,MEX
+JAN,Jackson,USA
+JFK,New York,USA
+JNB,Johannesburg,ZAF
+LBA,Leeds,GBR
+LIT,Little Rock,USA
+LPA,Las Palmas,ESP
+MCI,Kansas City,USA
+MCO,Orlando,USA
+MDW,Chicago,USA
+MFE,McAllen,USA
+MGW,Morgantown,USA
+MIA,Miami,USA
+MKC,Kansas City,USA
+MQT,Marquette,USA
+ORD,Chicago,USA
+ORH,Worcester,USA
+PHL,Philadelphia,USA
+PIA,Peoria,USA
+PMI,Palma de Mallorca,ESP
+PSG,Petersburg,USA
+PUJ,Punta Cana,DOM
+PUS,Busan,KOR
+RBA,Rabat,MAR
+RMO,Rome,ITA
+SDR,Santander,ESP
+SIN,Singapore,SGP
+SJU,San Juan,PRI
+SUX,Sioux City,USA
+TAO,Qingdao,CHN
+TSA,Taipei,TWN
+TUP,Tupelo,USA
+VAV,Vava'u,TON
+VCP,Campinas,BRA
+WRI,Wrightstown,USA
+YBL,Campbell River,CAN
+YXU,London,CAN
+ZCL,Zacatecas,MEX

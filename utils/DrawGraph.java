@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 import model.Edge;
 import model.Node;
 
-public class Graph extends JPanel {
+public class DrawGraph extends JPanel {
   private List<Node> nodes = new ArrayList<>();
   private List<Edge> edges = new ArrayList<>();
   private final int NODE_SIZE = 30;
 
-  public Graph() {
+  public DrawGraph() {
     this.setBackground(Color.WHITE);
   }
 
