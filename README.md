@@ -1,4 +1,4 @@
-System Structure
+# System Structure
 
 com.flight_routes.system
 ├── model
@@ -16,6 +16,7 @@ com.flight_routes.system
 └── error.txt
 └── report.txt
 
+```mermaid
 classDiagram
     class Airport {
         -String code
@@ -42,7 +43,9 @@ classDiagram
         +int numberOfStops
         +Itinerary()
         +Itinerary(flights, totalCost, totalDuration, numberOfStops)
-    }  
+    }
+  
+``` 
 
 
 Methods/Classes Proposal:
