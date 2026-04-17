@@ -1,0 +1,1 @@
+Invalid duration for flight flight_number: duration_minutes

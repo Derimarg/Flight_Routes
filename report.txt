@@ -1,0 +1,60 @@
+Airport HND: Tokyo, Japan
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+SFO - San Francisco, USA             NH909          9:00       $600.00
+
+
+
+Airport SIN: Singapore, Singapore
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+HND - Tokyo, Japan                   JL808          6:40       $280.00
+DXB - Dubai, UAE                     SQ708          7:40       $315.00
+
+
+
+Airport FRA: Frankfurt, Germany
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+DXB - Dubai, UAE                     LH606          6:20       $380.00
+
+
+
+Airport SFO: San Francisco, USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+JFK - New York, USA                  B61010         5:45       $310.00
+
+
+
+Airport CDG: Paris, France
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+FRA - Frankfurt, Germany             LH505          1:25       $100.00
+
+
+
+Airport LHR: London, UK
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+CDG - Paris, France                  BA303          1:15       $120.00
+DXB - Dubai, UAE                     EK404          6:50       $450.00
+
+
+
+Airport DXB: Dubai, UAE
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+SIN - Singapore, Singapore           SQ707          7:30       $320.00
+LHR - London, UK                     EK405          7:10       $480.00
+
+
+
+Airport JFK: New York, USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DESTINATION                          FLIGHT #       TIME       PRICE
+LHR - London, UK                     AA101          7:00       $550.00
+SFO - San Francisco, USA             UA202          6:00       $300.00
+
+
+
