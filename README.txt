@@ -16,7 +16,7 @@ com.flight_routes.system
 └── error.txt
 └── report.txt
 
-
+``` mermaid
 classDiagram
     class Airport {
         -String code
@@ -44,7 +44,7 @@ classDiagram
         +Itinerary()
         +Itinerary(flights, totalCost, totalDuration, numberOfStops)
     }
-    
+```    
 
 Methods/Classes Proposal:
 - Airport.java
