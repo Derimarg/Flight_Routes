@@ -1,5 +1,6 @@
 # System Structure
 
+```plaintext
 com.flight_routes.system
 ├── model
 │   ├── Airport.java      (The Nodes)
@@ -15,6 +16,9 @@ com.flight_routes.system
 └── flight_routes.csv
 └── error.txt
 └── report.txt
+```
+
+# Class Diagram
 
 ```mermaid
 classDiagram
@@ -48,7 +52,7 @@ classDiagram
 ``` 
 
 
-Methods/Classes Proposal:
+# Methods/Classes Proposal:
 - Airport.java
 	- equals
 	- hashCode
@@ -87,4 +91,7 @@ Methods/Classes Proposal:
 	- exportRouteReport
 - sectionHeader
 - Main.java
--Map<Airport, List<Flight>> routes = new HashMap<>();
+	
+	```code
+	Map<Airport, List<Flight>> routes = new HashMap<>();
+	```
