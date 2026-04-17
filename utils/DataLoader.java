@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-// models
 import model.Airport;
 import model.Flight;
 
@@ -93,8 +91,7 @@ public class DataLoader {
     List<String[]> data = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-      String line;
-
+      String line = br.readLine();
       while ((line = br.readLine()) != null) {
         data.add(line.split(","));
       }

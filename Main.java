@@ -9,6 +9,7 @@ import utils.Functions;
 
 public class Main {
   public static void main(String[] args) {
+    // Hold flights network
     Map<Airport, List<Flight>> routes = new HashMap<>();
 
     String errorFileName = "error.txt";
@@ -21,10 +22,6 @@ public class Main {
 
       // load all airports and flights data into the system
       Functions.loadSystem(routes, reportFile, errorFile);
-
-      // show all loaded routes
-      System.out.println("\nAll routes:\n");
-      Functions.displayRoutes(routes, reportFile, errorFile);
 
       // show error if file management process fails
     } catch (FileNotFoundException e) {
