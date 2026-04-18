@@ -21,12 +21,12 @@ public class DataLoader {
     List<String[]> rawLines = getRawData("airports.csv", errWriter);
 
     for (String[] parts : rawLines) {
-      if (parts.length != 3)
+      if (parts.length != 11) // 3
         continue; // skip lines that don't have the expected format
 
-      String code = parts[0];
-      String city = parts[1];
-      String country = parts[2];
+      String code = parts[10]; // iata_code // 0/10
+      String city = parts[7]; // municipality // 1/7
+      String country = parts[5]; // iso_country // 2/5
 
       // Add airport object to the list
       airports.add(new Airport(code, city, country));
@@ -63,6 +63,12 @@ public class DataLoader {
         }
       }
 
+      if (source == null || destination == null) {
+        System.out.println(sourceCode + " " + destinationCode);
+        reportWriter.println("Error assigning route to airport, either source or destination invalid. Source: " + sourceCode + ", destination: " + destinationCode);
+        continue;
+      }
+
       String price = parts[2];
       String durationStr = parts[3];
       String flightNumber = parts[4];
@@ -93,7 +99,9 @@ public class DataLoader {
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
       String line = br.readLine();
       while ((line = br.readLine()) != null) {
-        data.add(line.split(","));
+        // Handles commas within quotes. Used specifically for LBA airport: "Leeds, West Yorkshire"
+        // This was giving us issues with the new dataset.
+        data.add(line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
       }
 
     } catch (IOException e) {
