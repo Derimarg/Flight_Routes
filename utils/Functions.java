@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import javax.swing.JFrame;
 import model.Airport;
 import model.Flight;
+import model.Itinerary;
+import service.RouteFinder;
 import service.RouteMap;
 
 public class Functions {
@@ -134,5 +138,18 @@ public class Functions {
     if (hasHeader) {
       reportWriter.println(header.toUpperCase());
     }
+  }
+
+  public static void getShortestPath(String sourceCode, String destinationCode, RouteMap routeMap, PrintWriter report) {
+    Set<Airport> airports = routeMap.getAllAirports();
+    Airport source = null;
+    Airport destination = null;
+    for (Airport airport : airports) {
+      if (airport.getCode().equals(sourceCode)) source = airport;
+      if (airport.getCode().equals(destinationCode)) destination = airport;
+    }
+    if (source == null || destination == null) report.println("No such airport: " + sourceCode + " -> " + destinationCode);
+    Itinerary route = RouteFinder.getFastestRoute(source, destination, routeMap);
+    report.print(route);
   }
 }

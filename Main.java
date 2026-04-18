@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
 import service.RouteMap;
 import utils.Functions;
 
@@ -18,6 +19,7 @@ public class Main {
 
       // load all airports and flights data into the system
       Functions.loadSystem(routeMap, reportFile, errorFile);
+      Functions.getShortestPath("ORD", "LAX", routeMap, reportFile);
 
       // show error if file management process fails
     } catch (FileNotFoundException e) {
