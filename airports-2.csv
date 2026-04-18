@@ -1,0 +1,56 @@
+name,latitude_deg,longitude_deg,elevation_ft,continent,iso_country,iso_region,municipality,scheduled_service,icao_code,iata_code
+Hartsfield-Jackson Atlanta International Airport,33.6407,-84.4277,1026,NA,US,US-GA,Atlanta,yes,KATL,ATL
+Los Angeles International Airport,33.9416,-118.4085,125,NA,US,US-CA,Los Angeles,yes,KLAX,LAX
+Chicago O'Hare International Airport,41.9742,-87.9073,672,NA,US,US-IL,Chicago,yes,KORD,ORD
+Dallas/Fort Worth International Airport,32.8998,-97.0403,607,NA,US,US-TX,Dallas,yes,KDFW,DFW
+Denver International Airport,39.8561,-104.6737,5431,NA,US,US-CO,Denver,yes,KDEN,DEN
+John F. Kennedy International Airport,40.6413,-73.7781,13,NA,US,US-NY,New York,yes,KJFK,JFK
+San Francisco International Airport,37.6213,-122.379,13,NA,US,US-CA,San Francisco,yes,KSFO,SFO
+Seattle-Tacoma International Airport,47.4502,-122.3088,433,NA,US,US-WA,Seattle,yes,KSEA,SEA
+Harry Reid International Airport,36.084,-115.1537,2181,NA,US,US-NV,Las Vegas,yes,KLAS,LAS
+Orlando International Airport,28.4294,-81.3089,96,NA,US,US-FL,Orlando,yes,KMCO,MCO
+Miami International Airport,25.7959,-80.287,8,NA,US,US-FL,Miami,yes,KMIA,MIA
+Phoenix Sky Harbor International Airport,33.4342,-112.008,1135,NA,US,US-AZ,Phoenix,yes,KPHX,PHX
+Newark Liberty International Airport,40.6895,-74.1745,18,NA,US,US-NJ,Newark,yes,KEWR,EWR
+George Bush Intercontinental Airport,29.9804,-95.3397,97,NA,US,US-TX,Houston,yes,KIAH,IAH
+Logan International Airport,42.3656,-71.0096,20,NA,US,US-MA,Boston,yes,KBOS,BOS
+Philadelphia International Airport,39.8719,-75.2411,36,NA,US,US-PA,Philadelphia,yes,KPHL,PHL
+Minneapolis-St. Paul International Airport,44.8819,-93.2217,841,NA,US,US-MN,Minneapolis,yes,KMSP,MSP
+Detroit Metropolitan Airport,42.2125,-83.3533,645,NA,US,US-MI,Detroit,yes,KDTW,DTW
+Fort Lauderdale-Hollywood International Airport,26.0725,-80.1527,9,NA,US,US-FL,Fort Lauderdale,yes,KFLL,FLL
+Salt Lake City International Airport,40.7884,-111.9777,4227,NA,US,US-UT,Salt Lake City,yes,KSLC,SLC
+London Heathrow Airport,51.4706,-0.4619,83,EU,GB,GB-ENG,London,yes,EGLL,LHR
+Paris Charles de Gaulle Airport,49.0097,2.5479,392,EU,FR,FR-IDF,Paris,yes,LFPG,CDG
+Frankfurt Airport,50.0333,8.5705,364,EU,DE,DE-HE,Frankfurt,yes,EDDF,FRA
+Amsterdam Airport Schiphol,52.3086,4.7639,-11,EU,NL,NL-NH,Amsterdam,yes,EHAM,AMS
+Madrid Barajas Airport,40.4719,-3.5626,1998,EU,ES,ES-M,Madrid,yes,LEMD,MAD
+Barcelona El Prat Airport,41.2971,2.0785,12,EU,ES,ES-CT,Barcelona,yes,LEBL,BCN
+Istanbul Airport,41.2753,28.7519,325,EU,TR,TR-34,Istanbul,yes,LTFM,IST
+Dubai International Airport,25.2528,55.3644,62,AS,AE,AE-DU,Dubai,yes,OMDB,DXB
+Singapore Changi Airport,1.3501,103.9944,22,AS,SG,SG-01,Singapore,yes,WSSS,SIN
+Tokyo Haneda Airport,35.5494,139.7798,35,AS,JP,JP-13,Tokyo,yes,RJTT,HND
+Incheon International Airport,37.4602,126.4407,23,AS,KR,KR-28,Seoul,yes,RKSI,ICN
+Hong Kong International Airport,22.3089,113.915,28,AS,HK,HK-HK,Hong Kong,yes,VHHH,HKG
+Suvarnabhumi Airport,13.69,100.7501,5,AS,TH,TH-10,Bangkok,yes,VTBS,BKK
+Soekarno-Hatta International Airport,-6.1256,106.6559,34,AS,ID,ID-BT,Jakarta,yes,WIII,CGK
+Kuala Lumpur International Airport,2.7456,101.7099,69,AS,MY,MY-10,Kuala Lumpur,yes,WMKK,KUL
+Sydney Kingsford Smith International Airport,-33.9399,151.1753,21,OC,AU,AU-NSW,Sydney,yes,YSSY,SYD
+Melbourne Airport,-37.6733,144.8433,434,OC,AU,AU-VIC,Melbourne,yes,YMML,MEL
+Toronto Pearson International Airport,43.6777,-79.6248,569,NA,CA,CA-ON,Toronto,yes,CYYZ,YYZ
+Vancouver International Airport,49.1939,-123.184,14,NA,CA,CA-BC,Vancouver,yes,CYVR,YVR
+Mexico City International Airport,19.4363,-99.0721,7316,NA,MX,MX-CMX,Mexico City,yes,MMMX,MEX
+Guarulhos International Airport,-23.4356,-46.4731,2459,SA,BR,BR-SP,Sao Paulo,yes,SBGR,GRU
+El Dorado International Airport,4.7017,-74.1469,8361,SA,CO,CO-DC,Bogota,yes,SKBO,BOG
+Jorge Chavez International Airport,-12.0219,-77.1143,113,SA,PE,PE-LIM,Lima,yes,SPJC,LIM
+OR Tambo International Airport,-26.1392,28.246,5558,AF,ZA,ZA-GP,Johannesburg,yes,FAOR,JNB
+Cairo International Airport,30.1219,31.4056,382,AF,EG,EG-C,Cairo,yes,HECA,CAI
+Beijing Capital International Airport,40.0799,116.6031,116,AS,CN,CN-11,Beijing,yes,ZBAA,PEK
+Shanghai Pudong International Airport,31.1433,121.805,13,AS,CN,CN-31,Shanghai,yes,ZSPD,PVG
+Guangzhou Baiyun International Airport,23.3924,113.2988,50,AS,CN,CN-44,Guangzhou,yes,ZGGG,CAN
+Indira Gandhi International Airport,28.5562,77.1,777,AS,IN,IN-DL,Delhi,yes,VIDP,DEL
+Chhatrapati Shivaji Maharaj International Airport,19.0896,72.8656,39,AS,IN,IN-MH,Mumbai,yes,VABB,BOM
+Nashville International Airport,36.1245,-86.6782,599,NA,US,US-TN,Nashville,yes,KBNA,BNA
+Austin-Bergstrom International Airport,30.1945,-97.6699,542,NA,US,US-TX,Austin,yes,KAUS,AUS
+San Diego International Airport,32.7335,-117.19,17,NA,US,US-CA,San Diego,yes,KSAN,SAN
+Ronald Reagan Washington National Airport,38.8512,-77.0377,15,NA,US,US-VA,Washington,yes,KDCA,DCA
+Portland International Airport,45.5887,-122.597,31,NA,US,US-OR,Portland,yes,KPDX,PDX

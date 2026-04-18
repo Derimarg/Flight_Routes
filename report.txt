@@ -1,374 +1,313 @@
-Airport PUS: Busan, KOR
+Airport PVG: Shanghai, CN
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+CAN - Guangzhou, CN                  FL35           2:10       $130.00
 
 
 
-Airport MGW: Morgantown, USA
+Airport LAX: Los Angeles, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+JFK - New York, US                   FL004          5:30       $350.00
+HND - Tokyo, JP                      FL39           11:00      $900.00
 
 
 
-Airport MQT: Marquette, USA
+Airport CDG: Paris, FR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+LHR - London, GB                     FL18           1:15       $120.00
 
 
 
-Airport ZCL: Zacatecas, MEX
+Airport SLC: Salt Lake City, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SFO - San Francisco, US              FL50           2:05       $140.00
 
 
 
-Airport BNA: Nashville, USA
+Airport JFK: New York, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+LAX - Los Angeles, US                FL003          6:00       $350.00
+MIA - Miami, US                      FL012          3:00       $180.00
+LHR - London, GB                     FL37           7:00       $670.00
 
 
 
-Airport MDW: Chicago, USA
+Airport DFW: Dallas, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
-YBL - Campbell River, CAN            FL1009         4:24       $224.88
-PUJ - Punta Cana, DOM                FL1014         4:35       $235.80
-ACK - Nantucket, USA                 FL1020         2:24       $110.04
-ZCL - Zacatecas, MEX                 FL1022         3:45       $187.44
-ACY - Atlantic City, USA             FL1029         1:58       $85.20
-MQT - Marquette, USA                 FL1032         1:09       $37.92
-SIN - Singapore, SGP                 FL1050         19:56      $1120.08
+DEN - Denver, US                     FL005          2:00       $110.00
 
 
 
-Airport WRI: Wrightstown, USA
+Airport BOG: Bogota, CO
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+LIM - Lima, PE                       FL32           3:10       $230.00
 
 
 
-Airport YXU: London, CAN
+Airport SYD: Sydney, AU
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+MEL - Melbourne, AU                  FL29           1:30       $100.00
 
 
 
-Airport SIN: Singapore, SGP
+Airport AUS: Austin, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+PHX - Phoenix, US                    FL52           2:30       $135.00
 
 
 
-Airport SUX: Sioux City, USA
+Airport BKK: Bangkok, TH
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+CGK - Jakarta, ID                    FL26           3:30       $200.00
 
 
 
-Airport AZI: Abu Dhabi, ARE
+Airport KUL: Kuala Lumpur, MY
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SIN - Singapore, SG                  FL28           1:00       $75.00
 
 
 
-Airport BTS: Bratislava, SVK
+Airport DCA: Washington, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BOS - Boston, US                     FL54           1:25       $115.00
 
 
 
-Airport VCP: Campinas, BRA
+Airport MIA: Miami, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+JFK - New York, US                   FL011          3:00       $180.00
+MEX - Mexico City, MX                FL42           3:20       $190.00
 
 
 
-Airport PIA: Peoria, USA
+Airport HKG: Hong Kong, HK
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BKK - Bangkok, TH                    FL25           2:40       $220.00
 
 
 
-Airport GUA: Guatemala City, GTM
+Airport BOS: Boston, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+EWR - Newark, US                     FL14           1:15       $115.00
 
 
 
-Airport MFE: McAllen, USA
+Airport SEA: Seattle, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SFO - San Francisco, US              FL008          1:50       $90.00
+YVR - Vancouver, CA                  FL46           1:00       $125.00
 
 
 
-Airport YBL: Campbell River, CAN
+Airport DXB: Dubai, AE
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SIN - Singapore, SG                  FL22           7:20       $460.00
+LHR - London, GB                     FL48           7:50       $530.00
 
 
 
-Airport PSG: Petersburg, USA
+Airport IAH: Houston, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+ATL - Atlanta, US                    FL15           2:30       $140.00
 
 
 
-Airport AKN: King Salmon, USA
+Airport MAD: Madrid, ES
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BCN - Barcelona, ES                  FL20           1:25       $80.00
 
 
 
-Airport EVN: Yerevan, ARM
+Airport SIN: Singapore, SG
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+HND - Tokyo, JP                      FL23           6:40       $560.00
+SYD - Sydney, AU                     FL49           8:00       $710.00
 
 
 
-Airport AVL: Asheville, USA
+Airport YYZ: Toronto, CA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+YVR - Vancouver, CA                  FL30           5:00       $300.00
 
 
 
-Airport MCO: Orlando, USA
+Airport ORD: Chicago, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+ATL - Atlanta, US                    FL002          2:00       $150.00
+CDG - Paris, FR                      FL41           8:00       $730.00
 
 
 
-Airport PUJ: Punta Cana, DOM
+Airport MEX: Mexico City, MX
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+GRU - Sao Paulo, BR                  FL31           9:10       $590.00
 
 
 
-Airport MIA: Miami, USA
+Airport SAN: San Diego, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SFO - San Francisco, US              FL53           1:30       $85.00
 
 
 
-Airport SDR: Santander, ESP
+Airport FLL: Fort Lauderdale, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+ATL - Atlanta, US                    FL47           1:55       $90.00
 
 
 
-Airport ANU: Antigua, ATG
+Airport PHL: Philadelphia, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BOS - Boston, US                     FL44           1:25       $120.00
 
 
 
-Airport PMI: Palma de Mallorca, ESP
+Airport LHR: London, GB
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+CDG - Paris, FR                      FL17           1:15       $120.00
+JFK - New York, US                   FL38           7:30       $690.00
 
 
 
-Airport LPA: Las Palmas, ESP
+Airport SFO: San Francisco, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SEA - Seattle, US                    FL007          1:50       $90.00
+HKG - Hong Kong, HK                  FL40           14:00      $960.00
 
 
 
-Airport ADQ: Kodiak, USA
+Airport PHX: Phoenix, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+LAS - Las Vegas, US                  FL010          1:15       $70.00
 
 
 
-Airport ACK: Nantucket, USA
+Airport EWR: Newark, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BOS - Boston, US                     FL013          1:15       $115.00
 
 
 
-Airport RBA: Rabat, MAR
+Airport PDX: Portland, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+SEA - Seattle, US                    FL55           0:50       $75.00
 
 
 
-Airport HUX: Huatulco, MEX
+Airport CGK: Jakarta, ID
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+KUL - Kuala Lumpur, MY               FL27           2:00       $90.00
 
 
 
-Airport TAO: Qingdao, CHN
+Airport DEL: Delhi, IN
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+BOM - Mumbai, IN                     FL36           2:10       $90.00
 
 
 
-Airport JNB: Johannesburg, ZAF
+Airport MSP: Minneapolis, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+DTW - Detroit, US                    FL16           1:40       $95.00
 
 
 
-Airport LIT: Little Rock, USA
+Airport IST: Istanbul, TR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+DXB - Dubai, AE                      FL21           4:50       $290.00
 
 
 
-Airport MCI: Kansas City, USA
+Airport DEN: Denver, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
-SUX - Sioux City, USA                FL1006         0:58       $27.72
-MCO - Orlando, USA                   FL1016         2:44       $128.64
-PUS - Busan, KOR                     FL1017         14:15      $792.12
-ADQ - Kodiak, USA                    FL1019         6:24       $339.96
-CSX - Changsha, CHN                  FL1026         16:01      $894.24
-GUC - Gunnison, USA                  FL1027         1:52       $79.20
-WRI - Wrightstown, USA               FL1037         2:44       $128.64
-GUA - Guatemala City, GTM            FL1039         4:05       $206.52
-MIA - Miami, USA                     FL1049         3:06       $150.12
+DFW - Dallas, US                     FL006          2:00       $110.00
+SLC - Salt Lake City, US             FL45           1:30       $100.00
 
 
 
-Airport SJU: San Juan, PRI
+Airport FRA: Frankfurt, DE
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+AMS - Amsterdam, NL                  FL19           1:10       $130.00
 
 
 
-Airport ORD: Chicago, USA
+Airport BNA: Nashville, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
-TUP - Tupelo, USA                    FL1003         1:36       $64.08
-AVL - Asheville, USA                 FL1010         1:37       $64.32
-JAN - Jackson, USA                   FL1018         1:54       $81.24
-LBA - Leeds, GBR                     FL1024         8:29       $460.08
-JNB - Johannesburg, ZAF              FL1030         18:37      $1043.76
-AZI - Abu Dhabi, ARE                 FL1031         15:38      $872.40
-HUX - Huatulco, MEX                  FL1036         4:24       $224.64
-ORH - Worcester, USA                 FL1040         2:12       $98.76
-YXU - London, CAN                    FL1042         1:14       $42.24
-SDR - Santander, ESP                 FL1043         9:00       $490.32
-LPA - Las Palmas, ESP                FL1045         9:03       $492.60
+DCA - Washington, US                 FL51           1:40       $110.00
 
 
 
-Airport MKC: Kansas City, USA
+Airport PEK: Beijing, CN
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
-BNA - Nashville, USA                 FL1001         1:30       $57.72
+PVG - Shanghai, CN                   FL34           2:20       $150.00
 
 
 
-Airport GUC: Gunnison, USA
+Airport ATL: Atlanta, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+ORD - Chicago, US                    FL001          2:00       $150.00
+DFW - Dallas, US                     FL43           2:30       $145.00
 
 
 
-Airport ORH: Worcester, USA
+Airport LAS: Las Vegas, US
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+PHX - Phoenix, US                    FL009          1:15       $70.00
 
 
 
-Airport ACY: Atlantic City, USA
+Airport HND: Tokyo, JP
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
+ICN - Seoul, KR                      FL24           2:10       $190.00
 
 
 
-Airport CSX: Changsha, CHN
+Airport JNB: Johannesburg, ZA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport CTA: Catania, ITA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport DXB: Dubai, ARE
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport JFK: New York, USA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-BTS - Bratislava, SVK                FL1012         9:23       $511.68
-EVN - Yerevan, ARM                   FL1013         12:16      $678.24
-DXB - Dubai, ARE                     FL1015         14:46      $821.88
-MIA - Miami, USA                     FL1025         2:46       $130.68
-MGW - Morgantown, USA                FL1028         1:11       $39.84
-VCP - Campinas, BRA                  FL1033         10:17      $564.24
-PSG - Petersburg, USA                FL1038         6:22       $338.40
-PIA - Peoria, USA                    FL1044         2:14       $100.20
-AKN - King Salmon, USA               FL1046         8:06       $438.48
-GUA - Guatemala City, GTM            FL1048         4:47       $247.08
-
-
-
-Airport JAN: Jackson, USA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport PHL: Philadelphia, USA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-VAV - Vava'u, TON                    FL1002         16:05      $897.96
-AGS - Augusta, USA                   FL1004         1:43       $70.08
-CTA - Catania, ITA                   FL1005         10:12      $558.96
-ANU - Antigua, ATG                   FL1007         4:10       $211.44
-MFE - McAllen, USA                   FL1008         3:53       $195.24
-RMO - Rome, ITA                      FL1011         10:37      $582.96
-PMI - Palma de Mallorca, ESP         FL1021         8:51       $481.20
-TAO - Qingdao, CHN                   FL1023         15:17      $851.88
-SJU - San Juan, PRI                  FL1034         3:47       $189.12
-TSA - Taipei, TWN                    FL1035         16:49      $939.96
-LIT - Little Rock, USA               FL1041         2:34       $119.88
-RBA - Rabat, MAR                     FL1047         8:14       $446.16
-
-
-
-Airport VAV: Vava'u, TON
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport TSA: Taipei, TWN
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport AGS: Augusta, USA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport LBA: Leeds, GBR
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport TUP: Tupelo, USA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
-
-
-
-Airport RMO: Rome, ITA
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DESTINATION                          FLIGHT #       TIME       PRICE
+CAI - Cairo, EG                      FL33           9:30       $660.00
 
 
 

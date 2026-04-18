@@ -18,18 +18,20 @@ public class DataLoader {
   // POST: airports list is populated with data from the csv file, reportWriter
   // and errWriter are used to log the process
   public static void parseAirportData(List<Airport> airports, PrintWriter reportWriter, PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("airports.csv", errWriter);
+    List<String[]> rawLines = getRawData("airports-2.csv", errWriter);
 
     for (String[] parts : rawLines) {
-      if (parts.length != 11) // 3
+      if (parts.length < 11) // 3
         continue; // skip lines that don't have the expected format
 
-      String code = parts[10]; // iata_code // 0/10
-      String city = parts[7]; // municipality // 1/7
-      String country = parts[5]; // iso_country // 2/5
+      // Remove quotes if exist and remove whitespace
+      String code = parts[10].replace("\"", "").trim(); // iata_code // 0/10
+      String city = parts[7].replace("\"", "").trim(); // municipality // 1/7
+      String country = parts[5].replace("\"", "").trim(); // iso_country // 2/5
 
-      // Add airport object to the list
-      airports.add(new Airport(code, city, country));
+      // Add IATA code only if exists
+      if (!code.isEmpty())
+        airports.add(new Airport(code, city, country));
 
     }
     System.out.println("Loaded airports...");
@@ -41,32 +43,25 @@ public class DataLoader {
   // and errWriter are used to log the process
   public static void parseFlightRoutesData(List<Airport> airports, List<Flight> flights, PrintWriter reportWriter,
       PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("flight_routes.csv", errWriter);
+    List<String[]> rawLines = getRawData("flight_routes-2.csv", errWriter);
+    int successCount = 0;
 
     for (String[] parts : rawLines) {
 
-      if (parts.length != 5)
+      if (parts.length < 5)
         continue; // skip lines that don't have the expected format
 
-      String sourceCode = parts[0];
-      String destinationCode = parts[1];
+      String sourceCode = parts[0].trim();
+      String destinationCode = parts[1].trim();
       Airport source = null;
       Airport destination = null;
 
       for (Airport airport : airports) {
-        if (airport.getCode().equals(sourceCode)) {
+        if (airport.getCode().equalsIgnoreCase(sourceCode))
           source = airport;
-        }
 
-        if (airport.getCode().equals(destinationCode)) {
+        if (airport.getCode().equalsIgnoreCase(destinationCode))
           destination = airport;
-        }
-      }
-
-      if (source == null || destination == null) {
-        System.out.println(sourceCode + " " + destinationCode);
-        reportWriter.println("Error assigning route to airport, either source or destination invalid. Source: " + sourceCode + ", destination: " + destinationCode);
-        continue;
       }
 
       String price = parts[2];
@@ -83,7 +78,10 @@ public class DataLoader {
       }
 
       // Create a Flight object (assuming a Flight class exists)
-      flights.add(new Flight(source, destination, Double.parseDouble(price), durationMinutes, flightNumber));
+      if (source != null && destination != null) {
+        flights.add(new Flight(source, destination, Double.parseDouble(price), durationMinutes, flightNumber));
+        successCount++;
+      }
 
     }
     System.out.println("Loaded flights...");
@@ -97,11 +95,22 @@ public class DataLoader {
     List<String[]> data = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-      String line = br.readLine();
+      String line = br.readLine(); // Skip header
       while ((line = br.readLine()) != null) {
-        // Handles commas within quotes. Used specifically for LBA airport: "Leeds, West Yorkshire"
-        // This was giving us issues with the new dataset.
-        data.add(line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
+        if (line.trim().isEmpty())
+          continue; // Skip empty line
+
+        // Handles commas within quotes. Used specifically for LBA airport: "Leeds, West
+        // Yorkshire"
+        // Split by comma only if not inside quotes
+        String[] parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+        // Clean up each par, remove external quotes and whitespace
+        for (int i = 0; i < parts.length; i++) {
+          parts[i] = parts[i].replace("\"", "").trim();
+        }
+
+        data.add(parts);
       }
 
     } catch (IOException e) {

@@ -50,9 +50,20 @@ public class Functions {
     window.setSize(1200, 800);
     window.setLocationRelativeTo(null);
 
-    int cols = 3; // Number of columns in our "invisible grid"
+    // look for only airports that have flights
+    List<Airport> activeAirports = new ArrayList<>();
+    for (Airport a : routeMap.getAllAirports()) {
+      if (a.getCode().equalsIgnoreCase("iata_code") || routeMap.getDirectConnections(a).isEmpty()) {
+        continue;
+      }
+      activeAirports.add(a);
+    }
+
+    int totalActive = activeAirports.size();
+    int cols = 4; // spread out horizontally
+    int rows = (int) Math.ceil((double) totalActive / cols);
     int cellWidth = window.getWidth() / cols;
-    int cellHeight = window.getHeight() / ((routeMap.getTotalAirportsCount() / cols) + 1);
+    int cellHeight = window.getHeight() / Math.max(rows, 1);
 
     DrawGraph gui = new DrawGraph();
     window.add(gui);
@@ -61,37 +72,36 @@ public class Functions {
     Map<Airport, Integer> airportToIndex = new HashMap<>();
     int index = 0;
 
-    for (Airport airport : routeMap.getAllAirports()) {
-      if (airport.getCode().equalsIgnoreCase("code"))
-        continue;
-
-      // Calculate grid position
+    for (Airport airport : activeAirports) {
+      // Calulate grid position
       int col = index % cols;
       int row = index / cols;
 
-      // Pick a random spot WITHIN that grid cell, with 50px padding
-      int x = (col * cellWidth) + (int) (Math.random() * (cellWidth - 100)) + 50;
-      int y = (row * cellHeight) + (int) (Math.random() * (cellHeight - 100)) + 50;
+      // Pick a random spot WITHIN that grid cell
+      int x = (col * cellWidth) + (cellWidth / 4) + (int) (Math.random() * (cellWidth / 2));
+      int y = (row * cellHeight) + (cellHeight / 4) + (int) (Math.random() * (cellHeight / 2));
 
+      // Map airport object to the indexit holds in gui list
       gui.addNode(airport.getCode(), x, y);
-      airportToIndex.put(airport, index++);
+      airportToIndex.put(airport, index);
+      index++;
     }
 
     // Log and add edges
-    for (Airport airport : routeMap.getAllAirports()) {
+    for (Airport airport : activeAirports) {
       int srcIdx = airportToIndex.get(airport);
       List<Flight> flightList = routeMap.getDirectConnections(airport);
 
       // Print airport information
       String title = "Airport " + airport.getCode() + ": " + airport.getCity() + ", " + airport.getCountry();
-
       Functions.sectionHeader(title, reportFile);
 
       for (Flight flight : flightList) {
         reportFile.println(flight.toString());
 
-        Integer destIdx = airportToIndex.get(flight.getDestination());
-        if (destIdx != null) {
+        // Only draw edge if the destination airport was also added as a node
+        if (airportToIndex.containsKey(flight.getDestination())) {
+          int destIdx = airportToIndex.get(flight.getDestination());
           gui.addEdge(srcIdx, destIdx, "$" + flight.getPrice());
         }
       }
