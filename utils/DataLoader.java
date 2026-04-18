@@ -28,10 +28,12 @@ public class DataLoader {
       String code = parts[10].replace("\"", "").trim(); // iata_code // 0/10
       String city = parts[7].replace("\"", "").trim(); // municipality // 1/7
       String country = parts[5].replace("\"", "").trim(); // iso_country // 2/5
+      double lat = Double.parseDouble(parts[1].trim());
+      double lon = Double.parseDouble(parts[2].trim());
 
       // Add IATA code only if exists
       if (!code.isEmpty())
-        airports.add(new Airport(code, city, country));
+        airports.add(new Airport(code, city, country, lat, lon));
 
     }
     System.out.println("Loaded airports...");

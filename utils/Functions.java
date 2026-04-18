@@ -60,10 +60,9 @@ public class Functions {
     }
 
     int totalActive = activeAirports.size();
-    int cols = 4; // spread out horizontally
-    int rows = (int) Math.ceil((double) totalActive / cols);
-    int cellWidth = window.getWidth() / cols;
-    int cellHeight = window.getHeight() / Math.max(rows, 1);
+    int width = 1200;
+    int height = 800;
+    int padding = 100;
 
     DrawGraph gui = new DrawGraph();
     window.add(gui);
@@ -73,13 +72,21 @@ public class Functions {
     int index = 0;
 
     for (Airport airport : activeAirports) {
-      // Calulate grid position
-      int col = index % cols;
-      int row = index / cols;
+      double lon = airport.getLon();
+      // West ti East US
+      double lonMin = -130.0;
+      double lonMax = -65.0;
 
-      // Pick a random spot WITHIN that grid cell
-      int x = (col * cellWidth) + (cellWidth / 4) + (int) (Math.random() * (cellWidth / 2));
-      int y = (row * cellHeight) + (cellHeight / 4) + (int) (Math.random() * (cellHeight / 2));
+      double lat = airport.getLat();
+      // South to North US
+      double latMin = 24.0;
+      double latMax = 50.0;
+
+      double xFrac = lon - lonMin;
+      int x = (int) (xFrac * (width - 2 * padding) / (lonMax - lonMin)) + padding;
+
+      double yFrac = (latMax - lat);
+      int y = (int) (yFrac * (height - 2 * padding) / (latMax - latMin)) + padding;
 
       // Map airport object to the indexit holds in gui list
       gui.addNode(airport.getCode(), x, y);

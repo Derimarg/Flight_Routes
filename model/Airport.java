@@ -4,16 +4,20 @@ public class Airport {
   private String code;
   private String city;
   private String country;
+  private double lat;
+  private double lon;
 
   // Default constructor
   public Airport() {
   }
 
   // Overloaded construnctor
-  public Airport(String code, String city, String country) {
+  public Airport(String code, String city, String country, double lat, double lon) {
     this.code = code;
     this.city = city;
     this.country = country;
+    this.lat = lat;
+    this.lon = lon;
   }
 
   // Getters
@@ -27,6 +31,14 @@ public class Airport {
 
   public String getCountry() {
     return country;
+  }
+
+  public double getLat() {
+    return lat;
+  }
+
+  public double getLon() {
+    return lon;
   }
 
   @Override
