@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class Itinerary {
   private ArrayList<Flight> flights;
@@ -15,6 +14,12 @@ public class Itinerary {
     totalCost = 0.0;
     totalDuration = 0;
     numberOfStops = 0;
+  }
+
+  public Itinerary(List<Flight> flights) {
+    this();
+    flights.addAll(flights);
+    recalculate();
   }
 
   private void recalculate() {

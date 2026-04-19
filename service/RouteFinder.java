@@ -118,7 +118,6 @@ public class RouteFinder {
 
     }
     // At this point we have a map containing the shortest distance from the origin to each airport.
-    Itinerary itinerary = new Itinerary();
     LinkedList<Flight> path = new LinkedList<>();
     Airport step = destination;
 
@@ -133,7 +132,7 @@ public class RouteFinder {
     }
 
     // Add each flight in linked list to itinerary.
-    itinerary.addAllFlights(path);
+    Itinerary itinerary = new Itinerary(path);
     return itinerary;
   }
 }
