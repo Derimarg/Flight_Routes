@@ -179,36 +179,36 @@ public class Functions {
     return switch (iataCode) {
 
       // --- West Coast ---
-      case "KSEA", "SEA" -> new int[] { 150, 145 };
-      case "KPDX", "PDX" -> new int[] { 145, 195 };
-      case "KSFO", "SFO" -> new int[] { 80, 240 };
-      case "KLAX", "LAX" -> new int[] { 80, 325 };
-      case "KSAN", "SAN" -> new int[] { 90, 450 };
+      case "KSEA", "SEA" -> new int[] { 110, 70 };
+      case "KPDX", "PDX" -> new int[] { 100, 115 };
+      case "KSFO", "SFO" -> new int[] { 40, 325 };
+      case "KLAX", "LAX" -> new int[] { 90, 450 };
+      case "KSAN", "SAN" -> new int[] { 125, 475 };
 
       // --- Mountain / Southwest ---
       case "KSLC", "SLC" -> new int[] { 280, 280 };
-      case "KLAS", "LAS" -> new int[] { 220, 380 };
-      case "KPHX", "PHX" -> new int[] { 250, 450 };
-      case "KDEN", "DEN" -> new int[] { 420, 310 };
+      case "KLAS", "LAS" -> new int[] { 180, 400 };
+      case "KPHX", "PHX" -> new int[] { 250, 480 };
+      case "KDEN", "DEN" -> new int[] { 420, 330 };
 
       // --- Texas / Central ---
-      case "KDFW", "DFW" -> new int[] { 540, 500 };
-      case "KIAH", "IAH" -> new int[] { 560, 580 };
-      case "KAUS", "AUS" -> new int[] { 500, 550 };
-      case "KMSP", "MSP" -> new int[] { 610, 180 };
-      case "KORD", "ORD" -> new int[] { 730, 255 };
+      case "KDFW", "DFW" -> new int[] { 570, 540 };
+      case "KIAH", "IAH" -> new int[] { 610, 620 };
+      case "KAUS", "AUS" -> new int[] { 550, 610 };
+      case "KMSP", "MSP" -> new int[] { 650, 200 };
+      case "KORD", "ORD" -> new int[] { 760, 275 };
       case "KDTW", "DTW" -> new int[] { 830, 260 };
 
       // --- East Coast / Southeast ---
-      case "KBOS", "BOS" -> new int[] { 1080, 245 };
-      case "KJFK", "JFK" -> new int[] { 1055, 290 };
-      case "KEWR", "EWR" -> new int[] { 1030, 295 };
-      case "KPHL", "PHL" -> new int[] { 1010, 315 };
-      case "KDCA", "DCA" -> new int[] { 980, 340 };
-      case "KBNA", "BNA" -> new int[] { 790, 410 };
-      case "KATL", "ATL" -> new int[] { 850, 480 };
-      case "KMCO", "MCO" -> new int[] { 940, 640 };
-      case "KFLL", "FLL" -> new int[] { 970, 690 };
+      case "KBOS", "BOS" -> new int[] { 1090, 205 };
+      case "KJFK", "JFK" -> new int[] { 1050, 260 };
+      case "KEWR", "EWR" -> new int[] { 1045, 265 };
+      case "KPHL", "PHL" -> new int[] { 1010, 315 }; // Couldn't find on map
+      case "KDCA", "DCA" -> new int[] { 980, 320 };
+      case "KBNA", "BNA" -> new int[] { 790, 430 };
+      case "KATL", "ATL" -> new int[] { 860, 500 };
+      case "KMCO", "MCO" -> new int[] { 950, 640 };
+      case "KFLL", "FLL" -> new int[] { 970, 690 }; // Couldn't find on map
       case "KMIA", "MIA" -> new int[] { 980, 700 };
       default -> new int[] { calculatedX, calculatedY };
     };
