@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 import model.Airport;
 import model.Flight;
+import model.Node;
 import model.Itinerary;
 import service.RouteFinder;
 import service.RouteMap;
@@ -64,10 +65,9 @@ public class Functions {
     }
 
     int totalActive = activeAirports.size();
-    int cols = 4; // spread out horizontally
-    int rows = (int) Math.ceil((double) totalActive / cols);
-    int cellWidth = window.getWidth() / cols;
-    int cellHeight = window.getHeight() / Math.max(rows, 1);
+    int width = 1200;
+    int height = 800;
+    int padding = 0;
 
     DrawGraph gui = new DrawGraph();
     window.add(gui);
@@ -77,18 +77,47 @@ public class Functions {
     int index = 0;
 
     for (Airport airport : activeAirports) {
-      // Calulate grid position
-      int col = index % cols;
-      int row = index / cols;
+      double lonMin = -128.0; // Pushes nodes WEST (left)
+      double lonMax = -62.5; // Adjusts the Eastern edge
+      double latMin = 14.0; // Pushes nodes SOUTH (down)
+      double latMax = 51.5; // Adjusts the Northern edge
 
-      // Pick a random spot WITHIN that grid cell
-      int x = (col * cellWidth) + (cellWidth / 4) + (int) (Math.random() * (cellWidth / 2));
-      int y = (row * cellHeight) + (cellHeight / 4) + (int) (Math.random() * (cellHeight / 2));
+      int x = (int) ((airport.getLon() - lonMin) * (width) / (lonMax - lonMin));
+      int y = (int) ((latMax - airport.getLat()) * (height) / (latMax - latMin));
+
+      int[] manual = getManualLocation(airport.getCode(), x, y);
+      int finalX = manual[0];
+      int finalY = manual[1];
+
+      boolean collision = true;
+      int attempts = 0;
+      while (collision && attempts < 10) { // Limit attempts to prevent infinit loops
+        collision = false;
+        for (Node existing : gui.getNodes()) {
+          double dx = finalX - existing.x;
+          double dy = finalY - existing.y;
+          double dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 35) {
+            collision = true;
+
+            if (dist == 0) {
+              finalX += 10; // Nudge East
+              finalY -= 15; // Nudge North
+
+            } else {
+              finalX += (int) ((dx / dist) * 15);
+              finalY += (int) ((dy / dist) * 15);
+            }
+            break;
+          }
+        }
+        attempts++;
+      }
 
       // Map airport object to the indexit holds in gui list
-      gui.addNode(airport.getCode(), x, y);
-      airportToIndex.put(airport, index);
-      index++;
+      gui.addNode(airport.getCode(), finalX, finalY);
+      airportToIndex.put(airport, index++);
     }
 
     // Log and add edges
@@ -138,6 +167,51 @@ public class Functions {
     if (hasHeader) {
       reportWriter.println(header.toUpperCase());
     }
+  }
+
+  public static int[] getManualLocation(String iataCode, int calculatedX, int calculatedY) {
+    // only hard-code the ones that the math keeps missing
+    // (x,y) -> { 150, 145 }
+    // move lef: decrease x
+    // move right: increase y
+    // move down: increase y
+    // move up: decrease y
+    return switch (iataCode) {
+
+      // --- West Coast ---
+      case "KSEA", "SEA" -> new int[] { 150, 145 };
+      case "KPDX", "PDX" -> new int[] { 145, 195 };
+      case "KSFO", "SFO" -> new int[] { 80, 240 };
+      case "KLAX", "LAX" -> new int[] { 80, 325 };
+      case "KSAN", "SAN" -> new int[] { 90, 450 };
+
+      // --- Mountain / Southwest ---
+      case "KSLC", "SLC" -> new int[] { 280, 280 };
+      case "KLAS", "LAS" -> new int[] { 220, 380 };
+      case "KPHX", "PHX" -> new int[] { 250, 450 };
+      case "KDEN", "DEN" -> new int[] { 420, 310 };
+
+      // --- Texas / Central ---
+      case "KDFW", "DFW" -> new int[] { 540, 500 };
+      case "KIAH", "IAH" -> new int[] { 560, 580 };
+      case "KAUS", "AUS" -> new int[] { 500, 550 };
+      case "KMSP", "MSP" -> new int[] { 610, 180 };
+      case "KORD", "ORD" -> new int[] { 730, 255 };
+      case "KDTW", "DTW" -> new int[] { 830, 260 };
+
+      // --- East Coast / Southeast ---
+      case "KBOS", "BOS" -> new int[] { 1080, 245 };
+      case "KJFK", "JFK" -> new int[] { 1055, 290 };
+      case "KEWR", "EWR" -> new int[] { 1030, 295 };
+      case "KPHL", "PHL" -> new int[] { 1010, 315 };
+      case "KDCA", "DCA" -> new int[] { 980, 340 };
+      case "KBNA", "BNA" -> new int[] { 790, 410 };
+      case "KATL", "ATL" -> new int[] { 850, 480 };
+      case "KMCO", "MCO" -> new int[] { 940, 640 };
+      case "KFLL", "FLL" -> new int[] { 970, 690 };
+      case "KMIA", "MIA" -> new int[] { 980, 700 };
+      default -> new int[] { calculatedX, calculatedY };
+    };
   }
 
   public static void getShortestPath(String sourceCode, String destinationCode, RouteMap routeMap, PrintWriter report) {

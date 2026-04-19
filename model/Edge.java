@@ -16,4 +16,8 @@ public class Edge {
     this.label = label;
     this.color = Color.BLACK; // default color
   }
+
+  public void setHighlighted(Color c) {
+    this.color = c;
+  }
 }
