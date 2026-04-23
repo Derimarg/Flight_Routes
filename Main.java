@@ -33,7 +33,8 @@ public class Main {
       MenuUI.displayMenu();
 
       while (running) {
-
+        System.out.println("=".repeat(50));
+        System.out.print("COMMAND > ");
         int choice = input.nextInt();
         input.nextLine(); // Clear buffer
 
@@ -49,9 +50,9 @@ public class Main {
 
             System.out.println("\nComputing optimal vertices...");
             Functions.getCheapestPath(src, dest, routeMap, reportFile);
-            System.out.println("\nResult saved to report.txt.");
+            // System.out.println("\nResult saved to report.txt.");
 
-            MenuUI.pressEnterToContinue(input);
+            // MenuUI.pressEnterToContinue(input);
           }
 
           case 2 -> {
@@ -61,20 +62,22 @@ public class Main {
             System.out.print("Enter Destination Code (e.g., LAX): ");
             String destFast = input.nextLine().toUpperCase();
 
+            System.out.println("\nComputing optimal vertices...");
             Functions.getShortestPath(srcFast, destFast, routeMap, reportFile);
           }
 
           case 3 -> {
             System.out.println("Analyzing hub data...");
+            System.out.println("\nComputing optimal vertices...");
             // Add a finHibs methos in Functions
             // Functions.identifyHubs(routeMap, reportFile);
-            MenuUI.clearScreen();
 
           }
 
           case 4 -> {
             System.out.println("Enter starting airport to check connectivity: ");
             String startNode = input.nextLine().toUpperCase();
+            System.out.println("\nComputing optimal vertices...");
             // Functions.checkReachability(startNode, routeMap, reportFile);
           }
 

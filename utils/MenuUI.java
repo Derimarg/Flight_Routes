@@ -38,8 +38,8 @@ public class MenuUI {
     System.out.println("  [3] NETWORK HUB IDENTIFICATION");
     System.out.println("  [4] SYSTEM CONNECTIVITY AUDIT");
     System.out.println("  [5] EXIT SYSTEM");
-    System.out.println("=".repeat(50));
-    System.out.print("SECURE COMMAND > ");
+    // System.out.println("=".repeat(50));
+    // System.out.print("SECURE COMMAND > ");
   }
 
   public static void pressEnterToContinue(Scanner input) {
@@ -83,7 +83,7 @@ public class MenuUI {
           flight.getPrice(),
           flight.getDurationMinutes()));
     }
-    sb.append("\n==============================================\n");
+    // sb.append("\n==============================================\n");
 
     return sb.toString();
   }
