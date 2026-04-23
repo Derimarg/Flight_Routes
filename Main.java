@@ -69,8 +69,7 @@ public class Main {
           case 3 -> {
             System.out.println("Analyzing hub data...");
             System.out.println("\nComputing optimal vertices...");
-            // Add a finHibs methos in Functions
-            // Functions.identifyHubs(routeMap, reportFile);
+            Functions.identifyHubs(routeMap, reportFile);
 
           }
 

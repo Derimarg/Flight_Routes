@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.FileWriter;
 // libraries
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -268,6 +269,30 @@ public class Functions {
 
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
+  }
+
+  public static List<Airport> identifyHubs(RouteMap routeMap, PrintWriter reportFile) {
+    if (routeMap.getAllAirports().size() == 0) return new ArrayList<>();
+
+    ArrayList<Airport> hubs = new ArrayList<>();
+    Integer highest = 0;
+
+    for (Airport ap : routeMap.getAllAirports()) {
+      Integer numDirectConnections = routeMap.getDirectConnections(ap).size();
+      if (hubs.size() == 0 || numDirectConnections > highest) {
+        hubs.clear();
+        hubs.add(ap);
+        highest = numDirectConnections;
+      } else if (numDirectConnections == highest) {
+        hubs.add(ap);
+      }
+    }
+
+    reportFile.println("Identified the following hub airport(s):");
+    for (Airport ap : hubs) {
+      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+    }
+    return hubs;
   }
 
   // Vertices and Edges representation for web map
