@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Sky-UMKC Flight Route Map</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="route_data.js"></script>
+        <style>
+            #map {
+                height: 600px;
+                width: 100%;
+                border-radius: 10px;
+            }
+            body {
+                font-family: sans-serif;
+                background: #f4f4f4;
+                padding: 20px;
+            }
+            .panel {
+                background: white;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="panel">
+            <h1>Flight Routes Visualizer</h1>
+            <div id="stats">Select a route in Java and refresh this page.</div>
+        </div>
+        <div id="map"></div>
+
+        <script>
+            // Initialize Map
+            const map = L.map("map").setView([39.0997, -94.5786], 4); // Centered on KC
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+            if (typeof routeData !== "undefined") {
+                document.getElementById("stats").innerHTML =
+                    `<strong>Route Found:</strong> Total Cost $${routeData.totalCost} | Duration: ${Math.floor(routeData.totalDuration / 60)}h ${routeData.totalDuration % 60}m`;
+
+                const pathCoords = [];
+                routeData.flights.forEach((f) => {
+                    const start = [f.srcLat, f.srcLong];
+                    const end = [f.destLat, f.destLong];
+
+                    // Add Markers
+                    L.marker(start).addTo(map).bindPopup(f.src);
+                    L.marker(end).addTo(map).bindPopup(f.dest);
+
+                    // Draw Line
+                    L.polyline([start, end], {
+                        color: "blue",
+                        weight: 3,
+                        opacity: 0.7,
+                        dashArray: "10, 10",
+                    }).addTo(map);
+                    pathCoords.push(start, end);
+                });
+                map.fitBounds(L.polyline(pathCoords).getBounds());
+            }
+        </script>
+    </body>
+</html>

@@ -260,7 +260,20 @@ public class Functions {
 
     Itinerary itinerary = RouteFinder.getCheapestRoute(source, destination, routeMap);
 
+    exportForWeb(itinerary);
+
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
+  }
+
+  // Export the routes data found by the Algorithm into a JSON file
+  public static void exportForWeb(Itinerary itinerary) {
+    try (PrintWriter out = new PrintWriter("web/route_data.js")) {
+      // save it as a global JS variable
+      out.print("const routeData = " + itinerary.toJSON() + ";");
+      System.out.println("[SYSTEM] Web data exported to web/route_data.js");
+    } catch (Exception e) {
+      System.out.println("Export error: " + e.getMessage());
+    }
   }
 }

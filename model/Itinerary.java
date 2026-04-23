@@ -69,6 +69,30 @@ public class Itinerary {
     return removed;
   }
 
+  public String toJSON() {
+    StringBuilder json = new StringBuilder();
+    json.append("{\n");
+    json.append("  \"totalCost\": ").append(totalCost).append(",\n");
+    json.append("  \"totalDuration\": ").append(totalDuration).append(",\n");
+    json.append("  \"flights\": [\n");
+
+    for (int i = 0; i < flights.size(); i++) {
+      Flight f = flights.get(i);
+      json.append("    {\n");
+      json.append("      \"src\": \"").append(f.getSource().getCode()).append("\",\n");
+      json.append("      \"dest\": \"").append(f.getDestination().getCode()).append("\",\n");
+      json.append("      \"srcLat\": ").append(f.getSource().getLat()).append(",\n");
+      json.append("      \"srcLong\": ").append(f.getSource().getLon()).append(",\n");
+      json.append("      \"destLat\": ").append(f.getDestination().getLat()).append(",\n");
+      json.append("      \"destLong\": ").append(f.getDestination().getLon()).append("\n");
+      json.append("    }").append(i < flights.size() - 1 ? "," : "").append("\n");
+    }
+
+    json.append("  ]\n");
+    json.append("}");
+    return json.toString();
+  }
+
   @Override
   public String toString() {
     return MenuUI.printItinerary(this);
