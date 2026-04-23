@@ -295,6 +295,40 @@ public class Functions {
     return hubs;
   }
 
+  public static void checkReachability(String startNode, RouteMap routeMap, PrintWriter reportFile) {
+    reportFile.println("Checking reachability...");
+    ArrayList<Airport> destinations = new ArrayList<>();
+    ArrayList<Airport> sources = new ArrayList<>();
+    Airport startAirport = routeMap.getAirport(startNode);
+
+    if (startAirport == null) {
+      reportFile.println("Could not find airport: " + startNode);
+      return;
+    }
+
+    for (Flight fl : routeMap.getDirectConnections(startAirport)) {
+      destinations.add(fl.getDestination());
+    }
+
+    for (Airport ap : routeMap.getAllAirports()) {
+      if (ap.equals(startAirport)) continue;
+      for (Flight fl : routeMap.getDirectConnections(ap)) {
+        if (fl.getDestination().equals(routeMap.getAirport(startNode))) {
+          sources.add(fl.getSource());
+        }
+      }
+    }
+
+    reportFile.println(startNode + " can reach the following:");
+    for (Airport ap : destinations) {
+      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+    }
+    reportFile.println("\n" + startNode + " can be reached by the following:");
+    for (Airport ap : sources) {
+      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+    }
+  }
+
   // Vertices and Edges representation for web map
   public static void exportFullNetwork(RouteMap routeMap) {
     try (PrintWriter out = new PrintWriter("web/network_data.js")) {

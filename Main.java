@@ -70,14 +70,13 @@ public class Main {
             System.out.println("Analyzing hub data...");
             System.out.println("\nComputing optimal vertices...");
             Functions.identifyHubs(routeMap, reportFile);
-
           }
 
           case 4 -> {
             System.out.println("Enter starting airport to check connectivity: ");
             String startNode = input.nextLine().toUpperCase();
             System.out.println("\nComputing optimal vertices...");
-            // Functions.checkReachability(startNode, routeMap, reportFile);
+            Functions.checkReachability(startNode, routeMap, reportFile);
           }
 
           case 5 -> {
