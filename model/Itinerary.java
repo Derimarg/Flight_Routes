@@ -18,14 +18,14 @@ public class Itinerary {
 
   public Itinerary(List<Flight> flights) {
     this();
-    flights.addAll(flights);
+    this.flights.addAll(flights);
     recalculate();
   }
 
   private void recalculate() {
     totalCost = 0.0;
     totalDuration = 0;
-    for (Flight flight: flights) {
+    for (Flight flight : flights) {
       totalCost += flight.getPrice();
       totalDuration += flight.getDurationMinutes();
     }
@@ -63,9 +63,11 @@ public class Itinerary {
 
   @Override
   public String toString() {
-    if (flights.size() == 0) return "Path length 0.";
+    if (flights.size() == 0)
+      return "Path length 0.";
     StringBuilder sb = new StringBuilder();
-    sb.append("Route " + flights.get(0).getSource().getCode() + " -> " + flights.get(flights.size() - 1).getDestination().getCode());
+    sb.append("Route " + flights.get(0).getSource().getCode() + " -> "
+        + flights.get(flights.size() - 1).getDestination().getCode());
     sb.append("\nTotal cost: $" + totalCost);
     sb.append("\nTotal duration: " + totalDuration / 60 + " hours");
     sb.append("\nFlights:");

@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.JFrame;
 import model.Airport;
 import model.Flight;
-import model.Node;
 import model.Itinerary;
+import model.Node;
 import service.RouteFinder;
 import service.RouteMap;
 
@@ -218,25 +217,60 @@ public class Functions {
     Set<Airport> airports = routeMap.getAllAirports();
     Airport source = null;
     Airport destination = null;
+
     for (Airport airport : airports) {
-      if (airport.getCode().equals(sourceCode)) source = airport;
-      if (airport.getCode().equals(destinationCode)) destination = airport;
+      if (airport.getCode().equals(sourceCode))
+        source = airport;
+      if (airport.getCode().equals(destinationCode))
+        destination = airport;
     }
-    if (source == null || destination == null) report.println("No such airport: " + sourceCode + " -> " + destinationCode);
+
+    if (source == null || destination == null) {
+
+      String error = "No such airport: " + sourceCode + " -> " + destinationCode;
+      report.println(error);
+      System.out.println(error);
+      return;
+    }
+
     Itinerary route = RouteFinder.getFastestRoute(source, destination, routeMap);
-    report.print(route);
+
+    if (route != null) {
+      report.print(route); // Saves to report.txt
+      System.out.print(route); // Shows in Console
+    } else {
+      String msg = "No route found between " + sourceCode + " and " + destinationCode;
+      report.println(msg);
+      System.out.println(msg);
+    }
   }
 
   public static void getCheapestPath(String sourceCode, String destinationCode, RouteMap routeMap, PrintWriter report) {
     Set<Airport> airports = routeMap.getAllAirports();
     Airport source = null;
     Airport destination = null;
+
     for (Airport airport : airports) {
-      if (airport.getCode().equals(sourceCode)) source = airport;
-      if (airport.getCode().equals(destinationCode)) destination = airport;
+      if (airport.getCode().equalsIgnoreCase(sourceCode))
+        source = airport;
+      if (airport.getCode().equalsIgnoreCase(destinationCode))
+        destination = airport;
     }
-    if (source == null || destination == null) report.println("No such airport: " + sourceCode + " -> " + destinationCode);
+    if (source == null || destination == null) {
+      String error = "No such airport: " + sourceCode + " -> " + destinationCode;
+      report.println(error);
+      System.out.println(error);
+      return;
+    }
+
     Itinerary route = RouteFinder.getCheapestRoute(source, destination, routeMap);
-    report.print(route);
+
+    if (route != null) {
+      report.print(route); // Saves to report.txt
+      System.out.print(route); // Shows in Console
+    } else {
+      String msg = "No path found between " + sourceCode + " and " + destinationCode;
+      System.out.println(msg);
+    }
   }
 }
