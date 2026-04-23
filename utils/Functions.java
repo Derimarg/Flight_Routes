@@ -240,6 +240,8 @@ public class Functions {
 
     Itinerary itinerary = RouteFinder.getFastestRoute(source, destination, routeMap);
 
+    // updates for fastest routes too
+    exportForWeb(itinerary);
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Fastest");
   }
@@ -355,10 +357,11 @@ public class Functions {
           if (routeCount > 0)
             json.append(",\n");
           json.append(String.format(
-              "    {\"src\": \"%s\", \"dest\": \"%s\", \"srcLat\": %f, \"srcLong\": %f, \"destLat\": %f, \"destLong\": %f}",
+              "    {\"src\": \"%s\", \"dest\": \"%s\", \"srcLat\": %f, \"srcLong\": %f, \"destLat\": %f, \"destLong\": %f, \"price\": %.2f, \"duration\": %d}",
               f.getSource().getCode(), f.getDestination().getCode(),
               f.getSource().getLat(), f.getSource().getLon(),
-              f.getDestination().getLat(), f.getDestination().getLon()));
+              f.getDestination().getLat(), f.getDestination().getLon(),
+              f.getPrice(), f.getDurationMinutes()));
           routeCount++;
         }
       }
@@ -387,7 +390,7 @@ public class Functions {
     exportSettings();
   }
 
-  // EXport visual settings to js
+  // Export visual settings to js
   public static void exportSettings() {
     try (PrintWriter out = new PrintWriter("web/settings.js")) {
       out.print("const systemSettings = { \"theme\": \"" + currentTheme + "\" };");
