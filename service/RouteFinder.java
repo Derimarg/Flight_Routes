@@ -123,14 +123,6 @@ public class RouteFinder {
     // to each airport.
     Itinerary itinerary = constructItinerary(source, destination, previousFlight);
 
-    // Print to console as requested
-    if (itinerary != null) {
-      System.out.println("\n--- Cheapest Route Result ---");
-      System.out.println(itinerary.toString());
-    } else {
-      System.out.println("\nNo route found between " + source.getCode() + " and " + destination.getCode());
-    }
-
     return itinerary;
   }
 

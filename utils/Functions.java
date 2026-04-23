@@ -256,6 +256,7 @@ public class Functions {
       if (airport.getCode().equalsIgnoreCase(destinationCode))
         destination = airport;
     }
+
     if (source == null || destination == null) {
       String error = "No such airport: " + sourceCode + " -> " + destinationCode;
       report.println(error);
@@ -263,14 +264,14 @@ public class Functions {
       return;
     }
 
-    Itinerary route = RouteFinder.getCheapestRoute(source, destination, routeMap);
+    Itinerary itinerary = RouteFinder.getCheapestRoute(source, destination, routeMap);
 
-    if (route != null) {
-      report.print(route); // Saves to report.txt
-      System.out.print(route); // Shows in Console
+    // Print to console as requested
+    if (itinerary != null) {
+      System.out.println("\n--- Cheapest Route Result ---");
+      System.out.println(itinerary.toString());
     } else {
-      String msg = "No path found between " + sourceCode + " and " + destinationCode;
-      System.out.println(msg);
+      System.out.println("\nNo route found between " + source.getCode() + " and " + destination.getCode());
     }
   }
 }

@@ -2,6 +2,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import service.RouteMap;
 import utils.Functions;
+import utils.MenuUI;
 
 public class Main {
   public static void main(String[] args) {
@@ -16,34 +17,41 @@ public class Main {
     try (
         PrintWriter errorFile = new PrintWriter(errorFileName);
         PrintWriter reportFile = new PrintWriter(reportFileName);) {
+      System.out.println();
+      MenuUI.printLogo();
 
       // Load the system
+      System.out.println("[SYSTEM] Initializing Graph Database... ");
       Functions.loadSystem(routeMap, reportFile, errorFile);
+      Thread.sleep(400); // Gives a second to see the status
+      System.out.println("READY");
       // Functions.getShortestPath("ORD", "LAX", routeMap, reportFile);
 
       boolean running = true;
-      System.out.println("=== Flight Route Planning System ===");
+      // MenuUI.clearScreen();
+      MenuUI.printHeader();
+      MenuUI.displayMenu();
 
       while (running) {
-        System.out.println("\nSelect an option:");
-        System.out.println("1. Find Cheapest Route (Price)");
-        System.out.println("2. Find Fastest Route (Time)");
-        System.out.println("3. Identify Hub Airports (Most Connections)");
-        System.out.println("4. Check Reachability (Unreachable Airports)");
-        System.out.println("5. Exit");
-        System.out.print("Choice: ");
 
         int choice = input.nextInt();
-        input.nextLine(); // Consume line
+        input.nextLine(); // Clear buffer
 
         switch (choice) {
           case 1 -> {
+
+            System.out.println("\n--- INITIATING PRICE OPTIMIZATION ---");
             System.out.print("Enter Source Airport Code: ");
-            String srcCheap = input.nextLine().toUpperCase();
-            System.out.print("Enter Destination Code: ");
-            String destCheap = input.nextLine().toUpperCase();
-            Functions.getCheapestPath(srcCheap, destCheap, routeMap, reportFile);
+            String src = input.nextLine().toUpperCase();
+            System.out.print("Enter Destination Airport Code: ");
+
+            String dest = input.nextLine().toUpperCase();
+
+            System.out.println("\nComputing optimal vertices...");
+            Functions.getCheapestPath(src, dest, routeMap, reportFile);
             System.out.println("\nResult saved to report.txt.");
+
+            MenuUI.pressEnterToContinue(input);
           }
 
           case 2 -> {
@@ -54,13 +62,14 @@ public class Main {
             String destFast = input.nextLine().toUpperCase();
 
             Functions.getShortestPath(srcFast, destFast, routeMap, reportFile);
-            System.out.println("Result saved to report.txt and displayed on map.");
           }
 
           case 3 -> {
             System.out.println("Analyzing hub data...");
             // Add a finHibs methos in Functions
             // Functions.identifyHubs(routeMap, reportFile);
+            MenuUI.clearScreen();
+
           }
 
           case 4 -> {
