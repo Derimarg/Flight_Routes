@@ -7,132 +7,96 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
-
 import model.Airport;
 import model.Flight;
 import model.Itinerary;
 
 public class RouteFinder {
+  // Public API
   public static Itinerary getFastestRoute(Airport source, Airport destination, RouteMap routes) {
-    Set<Airport> visited = new HashSet<>();
-    Map<Airport, Integer> distances = new HashMap<>();
-    Map<Airport, Flight> previousFlight = new HashMap<>();
-
-    // Initialize distance map
-    for (Airport airport : routes.getAllAirports()) {
-      // Distance from source to any airport currently infinity (-1)
-      distances.put(airport, Integer.MAX_VALUE);
-    }
-    // Distance from source to source is 0
-    distances.put(source, 0);
-
-    // Create priorityqueue of airports in order of their distance from the origin.
-    PriorityQueue<Airport> airports = new PriorityQueue<>(Comparator.comparingInt(distances::get));
-    airports.add(source);
-
-    // Go through every airport
-    while (!airports.isEmpty()) {
-      // Get the first/next airport and mark visited
-      Airport v = airports.poll();
-      if (visited.contains(v)) continue;
-      visited.add(v);
-      // Get the current airport's distance from the origin
-      Integer currentDistance = distances.get(v);
-      if (currentDistance == Integer.MAX_VALUE) continue;
-
-      // For every connecting flight
-      for (Flight connection: routes.getDirectConnections(v)) {
-        // If we already visited the destination, skip this one.
-        if (visited.contains(connection.getDestination())) continue;
-        // Get the flight destination's current distance from the origin.
-        Integer connectedDistance = distances.get(connection.getDestination());
-        // If the destination's distance is "infinity" or greater than the duration, update it with the sum of the current distance and the duration.
-        if (connectedDistance > (currentDistance + connection.getDurationMinutes())) {
-          distances.put(connection.getDestination(), (currentDistance + connection.getDurationMinutes()));
-          airports.add(connection.getDestination());
-          previousFlight.put(connection.getDestination(), connection);
-        }
-      }
-
-    }
-    // At this point we have a map containing the shortest distance from the origin to each airport.
-    Itinerary itinerary = new Itinerary();
-    LinkedList<Flight> path = new LinkedList<>();
-    Airport step = destination;
-
-    // Go through the steps and add them to a linked list
-    while (!step.equals(source)) {
-      Flight flight = previousFlight.get(step);
-      if (flight == null) {
-        return null;
-      }
-      path.addFirst(flight);
-      step = flight.getSource();
-    }
-
-    // Add each flight in linked list to itinerary.
-    itinerary.addAllFlights(path);
-    return itinerary;
+    return findPath(source, destination, routes, false);
   }
 
   public static Itinerary getCheapestRoute(Airport source, Airport destination, RouteMap routes) {
+    return findPath(source, destination, routes, true);
+  }
+
+  // Private Engine
+  /**
+   * Dijkstra Algorithm
+   * 
+   * @param usePrice: if true, weights edges by price,; if false, by duration
+   *                  minutes.
+   */
+  private static Itinerary findPath(Airport source, Airport destination, RouteMap routes, boolean usePrice) {
     Set<Airport> visited = new HashSet<>();
-    Map<Airport, Double> costs = new HashMap<>();
+    Map<Airport, Double> scores = new HashMap<>();
     Map<Airport, Flight> previousFlight = new HashMap<>();
 
     // Initialize distance map
     for (Airport airport : routes.getAllAirports()) {
       // Distance from source to any airport currently infinity (-1)
-      costs.put(airport, Double.MAX_VALUE);
+      scores.put(airport, Double.MAX_VALUE);
     }
     // Distance from source to source is 0
-    costs.put(source, 0.0);
+    scores.put(source, 0.0);
 
     // Create priorityqueue of airports in order of their distance from the origin.
-    PriorityQueue<Airport> airports = new PriorityQueue<>(Comparator.comparingDouble(costs::get));
-    airports.add(source);
+    PriorityQueue<Airport> queue = new PriorityQueue<>(Comparator.comparingDouble(scores::get));
+    queue.add(source);
 
     // Go through every airport
-    while (!airports.isEmpty()) {
+    while (!queue.isEmpty()) {
       // Get the first/next airport and mark visited
-      Airport v = airports.poll();
-      if (visited.contains(v)) continue;
-      visited.add(v);
-      // Get the current airport's distance from the origin
-      Double currentCost = costs.get(v);
-      if (currentCost == Integer.MAX_VALUE) continue; // If this airport hasn't been reached yet, continue. (This shouldn't happen.)
+      Airport current = queue.poll();
+      if (visited.contains(current))
+        continue;
+
+      visited.add(current);
+
+      // Stop if destination is reached
+      if (current.equals(destination))
+        break;
 
       // For every connecting flight
-      for (Flight connection: routes.getDirectConnections(v)) {
-        // If we already visited the destination, skip this one.
-        if (visited.contains(connection.getDestination())) continue;
-        // Get the flight destination's current distance from the origin.
-        Double connectedDistance = costs.get(connection.getDestination());
-        // If the destination's distance is "infinity" or greater than the duration, update it with the sum of the current distance and the duration.
-        if (connectedDistance > (currentCost + connection.getDurationMinutes())) {
-          costs.put(connection.getDestination(), (currentCost + connection.getDurationMinutes()));
-          airports.add(connection.getDestination());
-          previousFlight.put(connection.getDestination(), connection);
+      for (Flight flight : routes.getDirectConnections(current)) {
+        Airport neighbor = flight.getDestination();
+        if (visited.contains(neighbor))
+          continue;
+
+        // Determine weight based on mode
+        double weight = usePrice ? flight.getPrice() : flight.getDurationMinutes();
+        double newScore = scores.get(current) + weight;
+
+        if (newScore < scores.get(neighbor)) {
+          scores.put(neighbor, newScore);
+          previousFlight.put(neighbor, flight);
+          queue.add(neighbor);
         }
       }
 
     }
-    // At this point we have a map containing the shortest distance from the origin to each airport.
+
+    return constructItinerary(source, destination, previousFlight);
+  }
+
+  /*
+   * Backtracks through the previuosFlight map to build the final route.
+   */
+  private static Itinerary constructItinerary(Airport source, Airport destination,
+      Map<Airport, Flight> previousFlight) {
     LinkedList<Flight> path = new LinkedList<>();
     Airport step = destination;
 
-    // Go through the steps and add them to a linked list
-    while (!step.equals(source)) {
+    while (step != null && !step.equals(source)) {
       Flight flight = previousFlight.get(step);
-      if (flight == null) {
+
+      if (flight == null)
         return null;
-      }
       path.addFirst(flight);
       step = flight.getSource();
     }
 
-    // Add each flight in linked list to itinerary.
-    Itinerary itinerary = new Itinerary(path);
-    return itinerary;
+    return path.isEmpty() ? null : new Itinerary(path);
   }
 }

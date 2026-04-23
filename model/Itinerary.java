@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import utils.MenuUI;
 
 public class Itinerary {
   private ArrayList<Flight> flights;
@@ -18,14 +19,33 @@ public class Itinerary {
 
   public Itinerary(List<Flight> flights) {
     this();
-    flights.addAll(flights);
+    this.flights.addAll(flights);
     recalculate();
   }
+
+  // Getters
+  public ArrayList<Flight> getFlights() {
+    return this.flights;
+  }
+
+  public Double getTotalCost() {
+    return totalCost;
+  }
+
+  public int getTotalDuration() {
+    return totalDuration;
+  }
+
+  public int getNumberOfStops() {
+    return numberOfStops;
+  }
+
+  // Setters
 
   private void recalculate() {
     totalCost = 0.0;
     totalDuration = 0;
-    for (Flight flight: flights) {
+    for (Flight flight : flights) {
       totalCost += flight.getPrice();
       totalDuration += flight.getDurationMinutes();
     }
@@ -49,30 +69,8 @@ public class Itinerary {
     return removed;
   }
 
-  public Double getTotalCost() {
-    return totalCost;
-  }
-
-  public int getTotalDuration() {
-    return totalDuration;
-  }
-
-  public int getNumberOfStops() {
-    return numberOfStops;
-  }
-
   @Override
   public String toString() {
-    if (flights.size() == 0) return "Path length 0.";
-    StringBuilder sb = new StringBuilder();
-    sb.append("Route " + flights.get(0).getSource().getCode() + " -> " + flights.get(flights.size() - 1).getDestination().getCode());
-    sb.append("\nTotal cost: $" + totalCost);
-    sb.append("\nTotal duration: " + totalDuration / 60 + " hours");
-    sb.append("\nFlights:");
-    for (Flight flight : flights) {
-      sb.append("\n" + flight.getSource().getCode() + " -> " + flight.getDestination().getCode());
-    }
-
-    return sb.toString();
+    return MenuUI.printItinerary(this);
   }
 }
