@@ -41,6 +41,28 @@
                 </div>
 
                 <div class="control-group">
+                    <div class="sidebar-title">Find Route</div>
+
+                    <label style="font-size: 0.75rem">Source Airport</label>
+                    <select id="src-select" class="btn" style="text-align: left"></select>
+
+                    <label style="font-size: 0.75rem">Destination Airport</label>
+                    <select
+                        id="dest-select"
+                        class="btn"
+                        style="text-align: left"
+                    ></select>
+
+                    <button
+                        class="btn active"
+                        style="margin-top: 10px; background: #10b981"
+                        onclick="handleRouteSearch()"
+                    >
+                        Find Best Path
+                    </button>
+                </div>
+
+                <div class="control-group">
                     <div class="sidebar-title">Active Itinerary</div>
                     <div id="itinerary-box" class="itinerary-card">
                         <div id="stat-line" style="font-size: 0.8rem; font-weight: bold">

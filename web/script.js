@@ -25,6 +25,19 @@ window.onload = function () {
     map.invalidateSize();
     renderSystem();
   }, 200);
+
+  // Populate dropdowns with airport codes
+  const srcSelect = document.getElementById("src-select");
+  const destSelect = document.getElementById("dest-select");
+
+  networkData.airports.forEach(airport => {
+    let opt1 = document.createElement("option");
+    let opt2 = document.createElement("option");
+    opt1.value = opt2.value = airport.code;
+    opt1.textContent = opt2.textContent = `${airport.code} - ${airport.name}`;
+    srcSelect.appendChild(opt1);
+    destSelect.appendChild(opt2);
+  });
 };
 
 function setWeightMode(mode) {
@@ -140,5 +153,70 @@ function toggleTheme() {
   document.body.setAttribute("data-theme", theme);
   map.removeLayer(activeTiles);
   activeTiles = (theme === "dark" ? darkLayer : lightLayer).addTo(map);
+  renderSystem();
+}
+
+function handleRouteSearch() {
+  const src = document.getElementById("src-select").value;
+  const dest = document.getElementById("dest-select").value;
+
+  if (src === dest) {
+    alert("Source and Destination cannot be the same!");
+    return;
+  }
+
+  // Since this is a local file-based project:
+  alert(`Please go to your Java Console and run Option [1] or [2] for: ${src} to ${dest}. Then refresh this page.`);
+
+  // Copy the codes to clipboard automatically to make it easier
+  const command = `${src} ${dest}`;
+  navigator.clipboard.writeText(command);
+  console.log("Copied to clipboard: " + command);
+}
+
+
+function calculatePathOnWeb(startNode, endNode, mode) {
+  const nodes = networkData.airports;
+  const edges = networkData.routes;
+
+  let distances = {};
+  let prev = {};
+  let pq = new Set();
+
+  nodes.forEach(a => {
+    distances[a.code] = Infinity;
+    pq.add(a.code);
+  });
+  distances[startNode] = 0;
+
+  while (pq.size > 0) {
+    let u = Array.from(pq).reduce((min, code) =>
+      distances[code] < distances[min] ? code : min);
+
+    pq.delete(u);
+    if (u === endNode) break;
+
+    edges.filter(e => e.src === u).forEach(edge => {
+      let alt = distances[u] + (mode === "price" ? edge.price : edge.duration);
+      if (alt < distances[edge.dest]) {
+        distances[edge.dest] = alt;
+        prev[edge.dest] = edge;
+      }
+    });
+  }
+
+  // Construct the result for the map
+  let path = [];
+  let curr = endNode;
+  while (prev[curr]) {
+    path.unshift(prev[curr]);
+    curr = prev[curr].src;
+  }
+
+  // Update the routeData globally and re-render
+  window.routeData = {
+    totalCost: distances[endNode],
+    flights: path
+  };
   renderSystem();
 }

@@ -239,6 +239,8 @@ public class Functions {
 
     Itinerary itinerary = RouteFinder.getFastestRoute(source, destination, routeMap);
 
+    // updates for fastest routes too
+    exportForWeb(itinerary);
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Fastest");
   }
