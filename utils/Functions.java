@@ -290,8 +290,9 @@ public class Functions {
 
     reportFile.println("Identified the following hub airport(s):");
     for (Airport ap : hubs) {
-      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
     }
+    reportFile.println("\n");
     return hubs;
   }
 
@@ -321,12 +322,13 @@ public class Functions {
 
     reportFile.println(startNode + " can reach the following:");
     for (Airport ap : destinations) {
-      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
     }
     reportFile.println("\n" + startNode + " can be reached by the following:");
     for (Airport ap : sources) {
-      reportFile.println(ap.getCode() + " " + ap.getCity() + ", " + ap.getCountry());
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
     }
+    reportFile.println("\n");
   }
 
   // Vertices and Edges representation for web map
