@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import model.Airport;
 import model.Flight;
 import model.Itinerary;
 
@@ -85,6 +86,15 @@ public class MenuUI {
     sb.append("\n==============================================\n");
 
     return sb.toString();
+  }
+
+  public static void printSearchResult(Itinerary itinerary, Airport source, Airport destination, String type) {
+    if (itinerary != null) {
+      System.out.println("\n--- " + type + " Route Result ---");
+      System.out.println(itinerary.toString());
+    } else {
+      System.out.println("\nNo route found between " + source.getCode() + " and " + destination.getCode());
+    }
   }
 
   // This clears the terminal window

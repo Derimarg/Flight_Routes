@@ -233,16 +233,10 @@ public class Functions {
       return;
     }
 
-    Itinerary route = RouteFinder.getFastestRoute(source, destination, routeMap);
+    Itinerary itinerary = RouteFinder.getFastestRoute(source, destination, routeMap);
 
-    if (route != null) {
-      report.print(route); // Saves to report.txt
-      System.out.print(route); // Shows in Console
-    } else {
-      String msg = "No route found between " + sourceCode + " and " + destinationCode;
-      report.println(msg);
-      System.out.println(msg);
-    }
+    // Print to console
+    MenuUI.printSearchResult(itinerary, source, destination, "Fastest");
   }
 
   public static void getCheapestPath(String sourceCode, String destinationCode, RouteMap routeMap, PrintWriter report) {
@@ -266,12 +260,7 @@ public class Functions {
 
     Itinerary itinerary = RouteFinder.getCheapestRoute(source, destination, routeMap);
 
-    // Print to console as requested
-    if (itinerary != null) {
-      System.out.println("\n--- Cheapest Route Result ---");
-      System.out.println(itinerary.toString());
-    } else {
-      System.out.println("\nNo route found between " + source.getCode() + " and " + destination.getCode());
-    }
+    // Print to console
+    MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
   }
 }
