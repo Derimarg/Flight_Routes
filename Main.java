@@ -5,6 +5,7 @@ import utils.Functions;
 import utils.MenuUI;
 
 public class Main {
+
   public static void main(String[] args) {
     // Hold flights network
     RouteMap routeMap = new RouteMap();
@@ -25,7 +26,6 @@ public class Main {
       Functions.loadSystem(routeMap, reportFile, errorFile);
       Thread.sleep(400); // Gives a second to see the status
       System.out.println("READY");
-      // Functions.getShortestPath("ORD", "LAX", routeMap, reportFile);
 
       boolean running = true;
       // MenuUI.clearScreen();

@@ -20,6 +20,8 @@ public class Functions {
     // private constructor to prevent instantiation
   }
 
+  private static String currentTheme = "dark"; // Default
+
   // PRE:
   // POST:
   public static void loadSystem(RouteMap routeMap, PrintWriter reportFile, PrintWriter errorFile) {
@@ -42,6 +44,8 @@ public class Functions {
     }
 
     // loaded routes
+    toggleTheme();
+    exportFullNetwork(routeMap);
     Functions.displayRoutes(routeMap, reportFile, errorFile);
 
   }
@@ -260,7 +264,74 @@ public class Functions {
 
     Itinerary itinerary = RouteFinder.getCheapestRoute(source, destination, routeMap);
 
+    exportForWeb(itinerary);
+
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
+  }
+
+  // Vertices and Edges representation for web map
+  public static void exportFullNetwork(RouteMap routeMap) {
+    try (PrintWriter out = new PrintWriter("web/network_data.js")) {
+      StringBuilder json = new StringBuilder();
+      json.append("const networkData = {\n");
+
+      // Export all Airport Nodes
+      json.append("  \"airports\": [\n");
+      List<model.Airport> airports = new ArrayList<>(routeMap.getAllAirports());
+      for (int i = 0; i < airports.size(); i++) {
+        model.Airport a = airports.get(i);
+        json.append(String.format("    {\"code\": \"%s\", \"lat\": %f, \"lng\": %f, \"name\": \"%s\"}%s\n",
+            a.getCode(), a.getLat(), a.getLon(), a.getCity(), (i < airports.size() - 1 ? "," : "")));
+      }
+      json.append("  ],\n");
+
+      // Export all Flight Edges (The Adjacency List)
+      json.append("  \"routes\": [\n");
+      int routeCount = 0;
+      for (model.Airport src : routeMap.getAllAirports()) {
+        for (model.Flight f : routeMap.getDirectConnections(src)) {
+          if (routeCount > 0)
+            json.append(",\n");
+          json.append(String.format(
+              "    {\"src\": \"%s\", \"dest\": \"%s\", \"srcLat\": %f, \"srcLong\": %f, \"destLat\": %f, \"destLong\": %f}",
+              f.getSource().getCode(), f.getDestination().getCode(),
+              f.getSource().getLat(), f.getSource().getLon(),
+              f.getDestination().getLat(), f.getDestination().getLon()));
+          routeCount++;
+        }
+      }
+      json.append("\n  ]\n};");
+      out.print(json.toString());
+      System.out.println("[SYSTEM] Full network graph exported for visualization.");
+    } catch (Exception e) {
+      System.err.println("Export Error: " + e.getMessage());
+    }
+  }
+
+  // Export the routes data found by the Algorithm into a JSON file
+  public static void exportForWeb(Itinerary itinerary) {
+    try (PrintWriter out = new PrintWriter("web/route_data.js")) {
+      // save it as a global JS variable
+      out.print("const routeData = " + itinerary.toJSON() + ";");
+      System.out.println("[SYSTEM] Web data exported to web/route_data.js");
+    } catch (Exception e) {
+      System.out.println("Export error: " + e.getMessage());
+    }
+  }
+
+  // Set Theme color for the web visualizer
+  public static void toggleTheme() {
+    currentTheme = currentTheme.equals("dark") ? "light" : "dark";
+    exportSettings();
+  }
+
+  // EXport visual settings to js
+  public static void exportSettings() {
+    try (PrintWriter out = new PrintWriter("web/settings.js")) {
+      out.print("const systemSettings = { \"theme\": \"" + currentTheme + "\" };");
+    } catch (Exception e) {
+      System.out.println("Settings export error: " + e.getMessage());
+    }
   }
 }
