@@ -50,6 +50,13 @@ public class RouteMap {
     return adjacencyList.containsKey(airport);
   }
 
+  public Airport getAirport(String code) {
+    for (Airport ap : adjacencyList.keySet()) {
+      if (ap.getCode().equals(code)) return ap;
+    }
+    return null;
+  }
+
   public int getTotalAirportsCount() {
     return adjacencyList.size();
   }

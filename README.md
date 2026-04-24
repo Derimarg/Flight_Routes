@@ -5,6 +5,7 @@ com.flight_routes.system
 ├── model
 │   ├── Airport.java      (The Nodes)
 │   └── Flight.java       (The Edges)
+|   └── Itinerary.java    (Collection of flights)
 ├── service
 │   ├── RouteMap.java     (The Graph Data Structure)
 │   └── RouteFinder.java  (The Dijkstra Algorithm)

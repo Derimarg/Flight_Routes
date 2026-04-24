@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.FileWriter;
 // libraries
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -272,6 +273,66 @@ public class Functions {
 
     // Print to console
     MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
+  }
+
+  public static List<Airport> identifyHubs(RouteMap routeMap, PrintWriter reportFile) {
+    if (routeMap.getAllAirports().size() == 0) return new ArrayList<>();
+
+    ArrayList<Airport> hubs = new ArrayList<>();
+    Integer highest = 0;
+
+    for (Airport ap : routeMap.getAllAirports()) {
+      Integer numDirectConnections = routeMap.getDirectConnections(ap).size();
+      if (hubs.size() == 0 || numDirectConnections > highest) {
+        hubs.clear();
+        hubs.add(ap);
+        highest = numDirectConnections;
+      } else if (numDirectConnections == highest) {
+        hubs.add(ap);
+      }
+    }
+
+    reportFile.println("Identified the following hub airport(s):");
+    for (Airport ap : hubs) {
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+    }
+    reportFile.println("\n");
+    return hubs;
+  }
+
+  public static void checkReachability(String startNode, RouteMap routeMap, PrintWriter reportFile) {
+    reportFile.println("Checking reachability...");
+    ArrayList<Airport> destinations = new ArrayList<>();
+    ArrayList<Airport> sources = new ArrayList<>();
+    Airport startAirport = routeMap.getAirport(startNode);
+
+    if (startAirport == null) {
+      reportFile.println("Could not find airport: " + startNode);
+      return;
+    }
+
+    for (Flight fl : routeMap.getDirectConnections(startAirport)) {
+      destinations.add(fl.getDestination());
+    }
+
+    for (Airport ap : routeMap.getAllAirports()) {
+      if (ap.equals(startAirport)) continue;
+      for (Flight fl : routeMap.getDirectConnections(ap)) {
+        if (fl.getDestination().equals(routeMap.getAirport(startNode))) {
+          sources.add(fl.getSource());
+        }
+      }
+    }
+
+    reportFile.println(startNode + " can reach the following:");
+    for (Airport ap : destinations) {
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+    }
+    reportFile.println("\n" + startNode + " can be reached by the following:");
+    for (Airport ap : sources) {
+      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+    }
+    reportFile.println("\n");
   }
 
   // Vertices and Edges representation for web map
