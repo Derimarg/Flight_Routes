@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import io.javalin.http.Context;
 import model.Airport;
 import model.Flight;
 import model.Itinerary;
@@ -69,6 +71,7 @@ public class RouteFinder {
         double newScore = scores.get(current) + weight;
 
         if (newScore < scores.get(neighbor)) {
+          queue.remove(neighbor);
           scores.put(neighbor, newScore);
           previousFlight.put(neighbor, flight);
           queue.add(neighbor);
@@ -98,5 +101,48 @@ public class RouteFinder {
     }
 
     return path.isEmpty() ? null : new Itinerary(path);
+  }
+
+  /**
+   * Web Handler: This is what the Browser calls via Fetch
+   */
+  public static void handleRouteRequest(Context ctx, RouteMap routeMap) {
+    // Get data from the Browser URL (e.g., ?source=ORD&dest=LAX&mode=price)
+    String srcCode = ctx.queryParam("source");
+    String destCode = ctx.queryParam("dest");
+    String mode = ctx.queryParam("mode");
+
+    // Map codes to Airport Objects
+    Airport source = findAirportByCode(routeMap, srcCode);
+    Airport destination = findAirportByCode(routeMap, destCode);
+
+    if (source == null || destination == null) {
+      ctx.status(404).result("{\"error\": \"Airport not found\"}");
+      return;
+    }
+
+    // Run Dijkstra Algorithm
+    Itinerary result;
+    if ("price".equalsIgnoreCase(mode)) {
+      result = getCheapestRoute(source, destination, routeMap);
+    } else {
+      result = getFastestRoute(source, destination, routeMap);
+    }
+
+    // Send the JSON back to the Browser
+    if (result != null) {
+      ctx.contentType("application/json");
+      ctx.result(result.toJSON());
+    } else {
+      ctx.status(404).result("{\"error\": \"No route found\"}");
+    }
+  }
+
+  // Helper to find airport object by its string code
+  private static Airport findAirportByCode(RouteMap map, String code) {
+    return map.getAllAirports().stream()
+        .filter(a -> a.getCode().equalsIgnoreCase(code))
+        .findFirst()
+        .orElse(null);
   }
 }

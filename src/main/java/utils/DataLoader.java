@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import model.Airport;
 import model.Flight;
 
@@ -18,7 +19,7 @@ public class DataLoader {
   // POST: airports list is populated with data from the csv file, reportWriter
   // and errWriter are used to log the process
   public static void parseAirportData(List<Airport> airports, PrintWriter reportWriter, PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("airports-2.csv", errWriter);
+    List<String[]> rawLines = getRawData("airports_2.csv", errWriter);
 
     for (String[] parts : rawLines) {
       if (parts.length < 11) // 3
@@ -45,7 +46,7 @@ public class DataLoader {
   // and errWriter are used to log the process
   public static void parseFlightRoutesData(List<Airport> airports, List<Flight> flights, PrintWriter reportWriter,
       PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("flight_routes-2.csv", errWriter);
+    List<String[]> rawLines = getRawData("flight_routes_2.csv", errWriter);
     int successCount = 0;
 
     for (String[] parts : rawLines) {

@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.swing.JFrame;
+
 import model.Airport;
 import model.Flight;
 import model.Itinerary;
@@ -46,7 +48,7 @@ public class Functions {
     // loaded routes
     toggleTheme();
     exportFullNetwork(routeMap);
-    Functions.displayRoutes(routeMap, reportFile, errorFile);
+    // Functions.displayRoutes(routeMap, reportFile, errorFile);
 
   }
 
