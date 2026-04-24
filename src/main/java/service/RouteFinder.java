@@ -106,35 +106,23 @@ public class RouteFinder {
   /**
    * Web Handler: This is what the Browser calls via Fetch
    */
-  public static void handleRouteRequest(Context ctx, RouteMap routeMap) {
-    // Get data from the Browser URL (e.g., ?source=ORD&dest=LAX&mode=price)
+  public static Itinerary handleRouteRequest(Context ctx, RouteMap routeMap) {
     String srcCode = ctx.queryParam("source");
     String destCode = ctx.queryParam("dest");
     String mode = ctx.queryParam("mode");
 
-    // Map codes to Airport Objects
     Airport source = findAirportByCode(routeMap, srcCode);
     Airport destination = findAirportByCode(routeMap, destCode);
 
     if (source == null || destination == null) {
-      ctx.status(404).result("{\"error\": \"Airport not found\"}");
-      return;
+      return null; // Return null if not found
     }
 
-    // Run Dijkstra Algorithm
-    Itinerary result;
+    // Run Dijkstra
     if ("price".equalsIgnoreCase(mode)) {
-      result = getCheapestRoute(source, destination, routeMap);
+      return getCheapestRoute(source, destination, routeMap);
     } else {
-      result = getFastestRoute(source, destination, routeMap);
-    }
-
-    // Send the JSON back to the Browser
-    if (result != null) {
-      ctx.contentType("application/json");
-      ctx.result(result.toJSON());
-    } else {
-      ctx.status(404).result("{\"error\": \"No route found\"}");
+      return getFastestRoute(source, destination, routeMap);
     }
   }
 

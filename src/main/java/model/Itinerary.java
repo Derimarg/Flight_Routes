@@ -1,7 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import utils.MenuUI;
 
 public class Itinerary {
@@ -91,6 +94,27 @@ public class Itinerary {
     json.append("  ]\n");
     json.append("}");
     return json.toString();
+  }
+
+  public Map<String, Object> toMap() {
+    Map<String, Object> map = new HashMap<>();
+    map.put("totalCost", this.totalCost);
+    map.put("totalDuration", this.totalDuration);
+
+    List<Map<String, Object>> flightList = new ArrayList<>();
+    for (Flight f : flights) {
+      Map<String, Object> fMap = new HashMap<>();
+      fMap.put("src", f.getSource().getCode());
+      fMap.put("dest", f.getDestination().getCode());
+      fMap.put("srcLat", f.getSource().getLat());
+      fMap.put("srcLong", f.getSource().getLon());
+      fMap.put("destLat", f.getDestination().getLat());
+      fMap.put("destLong", f.getDestination().getLon());
+      flightList.add(fMap);
+    }
+    map.put("flights", flightList);
+
+    return map;
   }
 
   @Override

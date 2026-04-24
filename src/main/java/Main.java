@@ -1,13 +1,38 @@
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import io.javalin.Javalin;
+import model.Itinerary;
 import service.RouteFinder;
 import service.RouteMap;
 import utils.Functions;
 import utils.MenuUI;
 
 public class Main {
+
+  // list to hold the history
+  private static List<Map<String, Object>> searchHistory = new ArrayList<>();
+
+  private static void saveSearchToFile(Map<String, Object> data, String filePath) {
+    try (PrintWriter out = new PrintWriter(filePath)) {
+      com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
+      // adds indentation and line breaks
+      mapper.enable(com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT);
+
+      String json = mapper.writeValueAsString(data);
+
+      // Write the variable declaration followed by the pretty-printed JSON
+      out.print("const lastSearch = " + json + ";");
+
+    } catch (Exception e) {
+      System.err.println("Failed to save search: " + e.getMessage());
+    }
+  }
 
   public static void main(String[] args) {
     // Hold flights network
@@ -30,8 +55,33 @@ public class Main {
      * APIS ROUTES
      */
     // Set up the endpoint
+    app.get("/getHistory", ctx -> {
+      Map<String, Object> response = new HashMap<>();
+      response.put("history", searchHistory);
+      ctx.json(response); // Just returns the list, no file writing = no refresh
+    });
+
+    // Ensure /findPath route matches this exactly
     app.get("/findPath", ctx -> {
-      RouteFinder.handleRouteRequest(ctx, routeMap);
+      Itinerary result = RouteFinder.handleRouteRequest(ctx, routeMap);
+
+      if (result != null) {
+        Map<String, Object> resultMap = result.toMap();
+        searchHistory.add(0, resultMap);
+
+        while (searchHistory.size() > 5) {
+          searchHistory.remove(searchHistory.size() - 1);
+        }
+
+        saveSearchToFile(resultMap, "web/last_search.js");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("currentRoute", resultMap);
+        response.put("history", searchHistory);
+        ctx.json(response);
+      } else {
+        ctx.status(404).json(Map.of("error", "No route found"));
+      }
     });
 
     // Background thread to prevent the console input to interupt the web refresh
@@ -62,7 +112,6 @@ public class Main {
 
           switch (choice) {
             case 1 -> {
-
               System.out.println("\n--- INITIATING PRICE OPTIMIZATION ---");
               System.out.print("Enter Source Airport Code: ");
               String src = input.nextLine().toUpperCase();

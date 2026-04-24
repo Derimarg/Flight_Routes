@@ -16,7 +16,7 @@ window.onload = function () {
       : "light";
   document.body.setAttribute("data-theme", currentTheme);
 
-  map = L.map("map", { zoomControl: false }).setView([39.8, -98.5], 4);
+  map = L.map("map", { zoomControl: true }).setView([39.0997, -94.5786], 5);
   activeTiles = (currentTheme === "dark" ? darkLayer : lightLayer).addTo(
     map,
   );
@@ -38,6 +38,13 @@ window.onload = function () {
     srcSelect.appendChild(opt1);
     destSelect.appendChild(opt2);
   });
+  fetchHistory();
+
+  if (typeof lastSearch !== 'undefined') {
+    window.routeData = lastSearch;
+    // Give map a moment to initialize before rendering the route
+    setTimeout(() => renderSystem(), 300);
+  }
 };
 
 function setWeightMode(mode) {
@@ -79,8 +86,9 @@ function renderSystem() {
       [[r.srcLat, r.srcLong], [r.destLat, r.destLong]],
       {
         color: isDark ? "#374151" : "#cbd5e0",
-        weight: 1.5,
-        opacity: 0.5,
+        weight: 2,
+        opacity: 1,
+        lineJoin: "round",
       }
     ).addTo(map);
 
@@ -120,13 +128,13 @@ function renderSystem() {
       const legPrice = matchedRoute ? matchedRoute.price : 0;
       const legDuration = matchedRoute ? matchedRoute.duration : 0;
 
-      // Map Drawing: Green Polylines
-      L.polyline([start, end], { color: "#10b981", weight: 6, opacity: 1 }).addTo(map);
+      // Map Drawing: Magenta Polylines
+      L.polyline([start, end], { color: "#CC338B", weight: 6, opacity: 1 }).addTo(map);
 
-      // Map Drawing: Markers (Orange for Start, Green for intermediate/end)
+      // Map Drawing: Markers (Orange for Start, Blue for intermediate/end)
       L.circleMarker(start, {
         radius: 6,
-        fillColor: i === 0 ? "#f59e0b" : "#10b981",
+        fillColor: i === 0 ? "#f59e0b" : "#000080",
         color: "#fff",
         weight: 2,
         fillOpacity: 1,
@@ -190,7 +198,7 @@ function toggleTheme() {
 }
 
 async function handleRouteSearch() {
-  console.log("Button Clicked!"); // If you don't see this in F12, the button isn't linked
+  console.log("Button Clicked!");
 
   const srcSelect = document.getElementById("src-select");
   const destSelect = document.getElementById("dest-select");
@@ -214,15 +222,61 @@ async function handleRouteSearch() {
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
+    const data = await response.json(); // Data now has { currentRoute, history }
 
-    console.log("Java sent back:", data);
+    // Update the active map route
+    window.routeData = data.currentRoute;
 
-    window.routeData = data;
+    // Update the history list using the list Java generates
+    renderHistoryList(data.history);
+
     renderSystem();
   } catch (error) {
-    console.error("Fetch failed. Is your Java READY?", error);
+    console.error("Fetch failed", error);
   }
+}
+
+function renderHistoryList(historyArray) {
+  const historyBox = document.getElementById("history-list");
+  if (!historyBox) return;
+
+  // If there is no history data, don't clear the box; just leave the "No history" message
+  if (!historyArray || historyArray.length === 0) return;
+
+  historyBox.innerHTML = ""; // Now clear it only if we have data to show
+
+  historyArray.forEach((route) => {
+    // Safety check: ensure flights exist before trying to read index 0
+    if (!route.flights || route.flights.length === 0) return;
+
+    const start = route.flights[0].src;
+    const end = route.flights[route.flights.length - 1].dest;
+
+    const card = document.createElement("div");
+    card.className = "history-item";
+
+    if (window.routeData && JSON.stringify(window.routeData) === JSON.stringify(route)) {
+      card.classList.add("active-history");
+    }
+
+    // Format minutes for the history meta
+    const h = Math.floor(route.totalDuration / 60);
+    const m = route.totalDuration % 60;
+    const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+    card.innerHTML = `
+        <div class="history-route"><strong>${start}</strong> → <strong>${end}</strong></div>
+        <div class="history-meta">$${route.totalCost.toFixed(2)} | ${timeStr}</div>
+    `;
+
+    card.onclick = () => {
+      window.routeData = route;
+      renderSystem();
+      renderHistoryList(historyArray);
+    };
+
+    historyBox.appendChild(card);
+  });
 }
 
 function calculatePathOnWeb(startNode, endNode, mode) {
@@ -271,3 +325,16 @@ function calculatePathOnWeb(startNode, endNode, mode) {
   renderSystem();
 }
 
+async function fetchHistory() {
+  try {
+    // Calling /getHistory prevents the "No route found" error on startup
+    const response = await fetch("http://localhost:8080/getHistory");
+    const data = await response.json();
+
+    if (data.history && data.history.length > 0) {
+      renderHistoryList(data.history);
+    }
+  } catch (e) {
+    console.error("History load failed:", e);
+  }
+}

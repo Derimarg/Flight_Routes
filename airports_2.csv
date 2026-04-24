@@ -16,11 +16,89 @@ George Bush Intercontinental Airport,29.9804,-95.3397,97,NA,US,US-TX,Houston,yes
 Logan International Airport,42.3656,-71.0096,20,NA,US,US-MA,Boston,yes,KBOS,BOS
 Philadelphia International Airport,39.8719,-75.2411,36,NA,US,US-PA,Philadelphia,yes,KPHL,PHL
 Minneapolis-St. Paul International Airport,44.8819,-93.2217,841,NA,US,US-MN,Minneapolis,yes,KMSP,MSP
-Detroit Metropolitan Airport,42.2125,-83.3533,645,NA,US,US-MI,Detroit,yes,KDTW,DTW
-Fort Lauderdale-Hollywood International Airport,26.0725,-80.1527,9,NA,US,US-FL,Fort Lauderdale,yes,KFLL,FLL
-Salt Lake City International Airport,40.7884,-111.9777,4227,NA,US,US-UT,Salt Lake City,yes,KSLC,SLC
+Detroit Metropolitan Airport,42.2124,-83.3533,645,NA,US,US-MI,Detroit,yes,KDTW,DTW
+Fort Lauderdale-Hollywood International Airport,26.0726,-80.1527,9,NA,US,US-FL,Fort Lauderdale,yes,KFLL,FLL
+LaGuardia Airport,40.7769,-73.874,21,NA,US,US-NY,New York,yes,KLGA,LGA
+Salt Lake City International Airport,40.7899,-111.9791,4227,NA,US,US-UT,Salt Lake City,yes,KSLC,SLC
+Baltimore/Washington International Airport,39.1754,-76.6683,146,NA,US,US-MD,Baltimore,yes,KBWI,BWI
+Washington Dulles International Airport,38.9445,-77.4558,313,NA,US,US-VA,Washington D.C.,yes,KIAD,IAD
+San Diego International Airport,32.7336,-117.1897,17,NA,US,US-CA,San Diego,yes,KSAN,SAN
+Ronald Reagan Washington National Airport,38.8512,-77.0402,15,NA,US,US-VA,Washington D.C.,yes,KDCA,DCA
+Tampa International Airport,27.9755,-82.5332,26,NA,US,US-FL,Tampa,yes,KTPA,TPA
 Nashville International Airport,36.1245,-86.6782,599,NA,US,US-TN,Nashville,yes,KBNA,BNA
 Austin-Bergstrom International Airport,30.1945,-97.6699,542,NA,US,US-TX,Austin,yes,KAUS,AUS
-San Diego International Airport,32.7335,-117.19,17,NA,US,US-CA,San Diego,yes,KSAN,SAN
-Ronald Reagan Washington National Airport,38.8512,-77.0377,15,NA,US,US-VA,Washington,yes,KDCA,DCA
-Portland International Airport,45.5887,-122.597,31,NA,US,US-OR,Portland,yes,KPDX,PDX
+Daniel K. Inouye International Airport,21.3245,-157.9251,13,NA,US,US-HI,Honolulu,yes,PHNL,HNL
+Kansas City International Airport,39.2976,-94.7139,1026,NA,US,US-MO,Kansas City,yes,KMCI,MCI
+Portland International Airport,45.5898,-122.5951,31,NA,US,US-OR,Portland,yes,KPDX,PDX
+Louis Armstrong New Orleans International Airport,29.9934,-90.258,4,NA,US,US-LA,New Orleans,yes,KMSY,MSY
+Cleveland-Hopkins International Airport,41.4107,-81.8498,791,NA,US,US-OH,Cleveland,yes,KCLE,CLE
+Pittsburgh International Airport,40.4915,-80.2329,1204,NA,US,US-PA,Pittsburgh,yes,KPIT,PIT
+San Jose International Airport,37.3626,-121.9291,62,NA,US,US-CA,San Jose,yes,KSJC,SJC
+Sacramento International Airport,38.6954,-121.5908,27,NA,US,US-CA,Sacramento,yes,KSMF,SMF
+Raleigh-Durham International Airport,35.8776,-78.7875,435,NA,US,US-NC,Raleigh,yes,KRDU,RDU
+Indianapolis International Airport,39.7173,-86.2947,797,NA,US,US-IN,Indianapolis,yes,KIND,IND
+San Antonio International Airport,29.5337,-98.4698,809,NA,US,US-TX,San Antonio,yes,KSAT,SAT
+Oakland International Airport,37.7213,-122.2207,9,NA,US,US-CA,Oakland,yes,KOAK,OAK
+Southwest Florida International Airport,26.5362,-81.7551,30,NA,US,US-FL,Fort Myers,yes,KRSW,RSW
+John Wayne Airport-Orange County Airport,33.6757,-117.8676,56,NA,US,US-CA,Santa Ana,yes,KSNA,SNA
+St. Louis Lambert International Airport,38.7477,-90.3597,618,NA,US,US-MO,St. Louis,yes,KSTL,STL
+Charlotte Douglas International Airport,35.214,-80.9431,748,NA,US,US-NC,Charlotte,yes,KCLT,CLT
+Birmingham-Shuttlesworth International Airport,33.5629,-86.7535,650,NA,US,US-AL,Birmingham,yes,KBHM,BHM
+Buffalo Niagara International Airport,42.9405,-78.7322,728,NA,US,US-NY,Buffalo,yes,KBUF,BUF
+Eppley Airfield,41.3025,-95.8941,984,NA,US,US-NE,Omaha,yes,KOMA,OMA
+Albuquerque International Sunport,35.0402,-106.6092,5355,NA,US,US-NM,Albuquerque,yes,KABQ,ABQ
+Palm Beach International Airport,26.6832,-80.0956,19,NA,US,US-FL,West Palm Beach,yes,KPBI,PBI
+Ontario International Airport,34.056,-117.6012,944,NA,US,US-CA,Ontario,yes,KONT,ONT
+William P. Hobby Airport,29.6454,-95.2789,46,NA,US,US-TX,Houston,yes,KHOU,HOU
+Bradley International Airport,41.9389,-72.6832,173,NA,US,US-CT,Windsor Locks,yes,KBDL,BDL
+Milwaukee Mitchell International Airport,42.9472,-87.8966,723,NA,US,US-WI,Milwaukee,yes,KMKE,MKE
+Ted Stevens Anchorage International Airport,61.1742,-149.996,151,NA,US,US-AK,Anchorage,yes,PANC,ANC
+Memphis International Airport,35.0424,-89.9767,341,NA,US,US-TN,Memphis,yes,KMEM,MEM
+Jacksonville International Airport,30.4941,-81.6879,30,NA,US,US-FL,Jacksonville,yes,KJAX,JAX
+Long Beach Airport,33.8177,-118.1516,60,NA,US,US-CA,Long Beach,yes,KLGB,LGB
+Will Rogers World Airport,35.3931,-97.6007,1295,NA,US,US-OK,Oklahoma City,yes,KOKC,OKC
+Richmond International Airport,37.5052,-77.3197,167,NA,US,US-VA,Richmond,yes,KRIC,RIC
+Piedmont Triad International Airport,36.0978,-79.9373,926,NA,US,US-NC,Greensboro,yes,KGSO,GSO
+Palm Springs International Airport,33.8297,-116.5067,477,NA,US,US-CA,Palm Springs,yes,KPSP,PSP
+Reno-Tahoe International Airport,39.4991,-119.7681,4415,NA,US,US-NV,Reno,yes,KRNO,RNO
+Boise Air Terminal,43.5644,-116.2228,2871,NA,US,US-ID,Boise,yes,KBOI,BOI
+Des Moines International Airport,41.534,-93.6631,958,NA,US,US-IA,Des Moines,yes,KDSM,DSM
+Norfolk International Airport,36.8946,-76.2012,27,NA,US,US-VA,Norfolk,yes,KORF,ORF
+Greenville-Spartanburg International Airport,34.8957,-82.2189,964,NA,US,US-SC,Greer,yes,KGSP,GSP
+Spokane International Airport,47.6199,-117.5338,2385,NA,US,US-WA,Spokane,yes,KGEG,GEG
+Grand Rapids Gerald R. Ford International Airport,42.8808,-85.5228,794,NA,US,US-MI,Grand Rapids,yes,KGRR,GRR
+Savannah/Hilton Head International Airport,32.1275,-81.2021,50,NA,US,US-GA,Savannah,yes,KSAV,SAV
+McGhee Tyson Airport,35.811,-83.994,981,NA,US,US-TN,Knoxville,yes,KTYS,TYS
+Huntsville International Airport,34.6404,-86.7731,629,NA,US,US-AL,Huntsville,yes,KHSV,HSV
+Tallahassee International Airport,30.3965,-84.3503,81,NA,US,US-FL,Tallahassee,yes,KTLH,TLH
+Little Rock Bill and Hillary Clinton National Airport,34.7294,-92.2243,262,NA,US,US-AR,Little Rock,yes,KLIT,LIT
+Wichita Dwight D. Eisenhower National Airport,37.6499,-97.4331,1333,NA,US,US-KS,Wichita,yes,KICT,ICT
+Blue Grass Airport,38.0365,-84.6059,979,NA,US,US-KY,Lexington,yes,KLEX,LEX
+Dayton International Airport,39.9024,-84.2194,1009,NA,US,US-OH,Dayton,yes,KDAY,DAY
+Charleston International Airport,32.8986,-80.0405,46,NA,US,US-SC,Charleston,yes,KCHS,CHS
+El Paso International Airport,31.8066,-106.3778,3962,NA,US,US-TX,El Paso,yes,KELP,ELP
+Tucson International Airport,32.1161,-110.941,2643,NA,US,US-AZ,Tucson,yes,KTUS,TUS
+Fresno Yosemite International Airport,36.7762,-119.7181,336,NA,US,US-CA,Fresno,yes,KFAT,FAT
+T.F. Green State Airport,41.724,-71.4282,55,NA,US,US-RI,Providence,yes,KPVD,PVD
+Burlington International Airport,44.4719,-73.1533,335,NA,US,US-VT,South Burlington,yes,KBTV,BTV
+Portland International Jetport,43.6462,-70.3093,76,NA,US,US-ME,Portland,yes,KPWM,PWM
+Manchester-Boston Regional Airport,42.9297,-71.4352,266,NA,US,US-NH,Manchester,yes,KMHT,MHT
+Billings Logan International Airport,45.8077,-108.5429,3652,NA,US,US-MT,Billings,yes,KBIL,BIL
+Jackson Hole Airport,43.6073,-110.7377,6451,NA,US,US-WY,Jackson,yes,KJAC,JAC
+Sioux Falls Regional Airport,43.5813,-96.7417,1430,NA,US,US-SD,Sioux Falls,yes,KFSD,FSD
+Hector International Airport,46.9207,-96.8158,901,NA,US,US-ND,Fargo,yes,KFAR,FAR
+Syracuse Hancock International Airport,43.1112,-76.1063,421,NA,US,US-NY,Syracuse,yes,KSYR,SYR
+Albany International Airport,42.7483,-73.8017,285,NA,US,US-NY,Albany,yes,KALB,ALB
+Rochester Institute of Technology Airport,43.1189,-77.6724,559,NA,US,US-NY,Rochester,yes,KROC,ROC
+Fairbanks International Airport,64.8151,-147.8564,434,NA,US,US-AK,Fairbanks,yes,PAFA,FAI
+Kahului Airport,20.8986,-156.4305,54,NA,US,US-HI,Kahului,yes,PHOG,OGG
+Lihue Airport,21.976,-159.339,153,NA,US,US-HI,Lihue,yes,PHLI,LIH
+Kona International Airport,19.7388,-156.0456,47,NA,US,US-HI,Kailua-Kona,yes,PHKO,KOA
+Guam International Airport,13.4839,144.7972,298,OC,GU,GU-GU,Tamuning,yes,PGUM,GUM
+Luis Munoz Marin International Airport,18.4394,-66.0018,9,NA,PR,PR-PR,San Juan,yes,TJSJ,SJU
+Juneau International Airport,58.3549,-134.5763,21,NA,US,US-AK,Juneau,yes,PAJN,JNU
+Key West International Airport,24.5561,-81.7596,3,NA,US,US-FL,Key West,yes,KEYW,EYW
+Asheville Regional Airport,35.4362,-82.5418,2165,NA,US,US-NC,Asheville,yes,KAVL,AVL
+Pensacola International Airport,30.4734,-87.1866,121,NA,US,US-FL,Pensacola,yes,KPNS,PNS
+Mobile Regional Airport,30.6912,-88.2428,219,NA,US,US-AL,Mobile,yes,KMOB,MOB
+Chattanooga Metropolitan Airport,35.0353,-85.2038,683,NA,US,US-TN,Chattanooga,yes,KCHA,CHA
