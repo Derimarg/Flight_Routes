@@ -46,12 +46,12 @@ public class DataLoader {
   // and errWriter are used to log the process
   public static void parseFlightRoutesData(List<Airport> airports, List<Flight> flights, PrintWriter reportWriter,
       PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("flight_routes_2.csv", errWriter);
+    List<String[]> rawLines = getRawData("flight_routes_3.csv", errWriter);
     int successCount = 0;
 
     for (String[] parts : rawLines) {
 
-      if (parts.length < 5)
+      if (parts.length < 4) // 5
         continue; // skip lines that don't have the expected format
 
       String sourceCode = parts[0].trim();
@@ -69,20 +69,19 @@ public class DataLoader {
 
       String price = parts[2];
       String durationStr = parts[3];
-      String flightNumber = parts[4];
 
       // Validate and parse duration
       int durationMinutes;
       try {
         durationMinutes = Integer.parseInt(durationStr);
       } catch (NumberFormatException e) {
-        errWriter.println("Invalid duration for flight " + flightNumber + ": " + durationStr);
+        errWriter.println("Invalid duration for flight " + sourceCode + "->" + destinationCode + ": " + durationStr);
         continue; // skip this flight if duration is invalid
       }
 
       // Create a Flight object (assuming a Flight class exists)
       if (source != null && destination != null) {
-        flights.add(new Flight(source, destination, Double.parseDouble(price), durationMinutes, flightNumber));
+        flights.add(new Flight(source, destination, Double.parseDouble(price), durationMinutes, null));
         successCount++;
       }
 
