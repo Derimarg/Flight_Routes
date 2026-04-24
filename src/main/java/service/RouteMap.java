@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import model.Airport;
 import model.Flight;
 
@@ -44,7 +45,7 @@ public class RouteMap {
     return adjacencyList.keySet();
   }
 
-  // Check is ariport is in the list
+  // Check if ariport is in the list
   public boolean hasAirport(Airport airport) {
     return adjacencyList.containsKey(airport);
   }
