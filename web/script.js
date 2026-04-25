@@ -250,11 +250,9 @@ async function handleRouteSearch() {
   }
 
   // START ANIMATION (This uses the local visualizeDijkstra function)
-  // This will make the map think for a few seconds
   await visualizeDijkstra(src, dest, weightMode);
 
-  // 2. FETCH ACTUAL DATA from Java Backend
-  // We still do this to keep your History list and Database in sync!
+  // FETCH ACTUAL DATA from Java Backend
   const url = `http://localhost:8080/findPath?source=${src}&dest=${dest}&mode=${weightMode}`;
 
   try {
@@ -296,11 +294,11 @@ function renderHistoryList(historyArray) {
 
     // THE CLICK HANDLER
     card.onclick = () => {
-      // 1. Update the Map & Itinerary Card
+      // Update the Map & Itinerary Card
       window.routeData = route;
       renderSystem();
 
-      // 2. FORCE THE DROPDOWNS TO CHANGE
+      // FORCE THE DROPDOWNS TO CHANGE
       const srcSelect = document.getElementById("src-select");
       const destSelect = document.getElementById("dest-select");
 
@@ -309,7 +307,7 @@ function renderHistoryList(historyArray) {
         destSelect.value = endCode;
       }
 
-      // 3. Re-render the list to update the 'active-history' border/color
+      // Re-render the list to update the 'active-history' border/color
       renderHistoryList(historyArray);
     };
 
@@ -334,22 +332,27 @@ async function visualizeDijkstra(startNode, endNode, mode) {
   let distances = {};
   let prev = {};
   let pq = new Set();
+  let exploredLayers = []; // Keep track of lines to clear later
 
-  // Clear everything for the show
-  window.routeData = null;
-  renderSystem();
-
-  // Set up Itinerary Box with a "Terminal" feel
+  // INITIAL UI FEEDBACK
   document.getElementById("itinerary-box").innerHTML = `
-        <div class="computing-text">
-            > DIJKSTRA.EXE LOADING...<br>
-            > OPTIMIZING FOR: ${mode.toUpperCase()}<br>
-            > SEARCHING PATH...
-        </div>`;
+    <div class="computing-text">
+        > EXECUTING DIJKSTRA...<br>
+        > MODE: ${mode.toUpperCase()}<br>
+        > SCANNING NETWORK...
+    </div>`;
 
-  nodes.forEach(a => { distances[a.code] = Infinity; pq.add(a.code); });
+  window.routeData = null;
+  renderSystem(); // Clear map to start fresh
+
+  // Initialize distances
+  nodes.forEach(a => {
+    distances[a.code] = Infinity;
+    pq.add(a.code);
+  });
   distances[startNode] = 0;
 
+  //  SEARCH PHASE (The "Wave" expansion)
   while (pq.size > 0) {
     let u = Array.from(pq).reduce((min, code) =>
       distances[code] < distances[min] ? code : min
@@ -359,35 +362,99 @@ async function visualizeDijkstra(startNode, endNode, mode) {
     pq.delete(u);
 
     const airport = nodes.find(n => n.code === u);
-    // Use the className so it grabs the CSS Variable color
-    const currentMarker = L.circleMarker([airport.lat, airport.lng], {
+
+    // Mark node as finalized (the "closed set")
+    L.circleMarker([airport.lat, airport.lng], {
+      className: 'node-finalized'
+    }).addTo(map);
+
+    // Current Working Node Pulse
+    const currentPulse = L.circleMarker([airport.lat, airport.lng], {
       className: 'node-checking'
     }).addTo(map);
 
-    await sleep(500); // Time to see the node "pop"
-
     if (u === endNode) {
-      map.removeLayer(currentMarker);
+      map.removeLayer(currentPulse);
       break;
     }
 
     const neighbors = edges.filter(e => e.src === u);
     for (const edge of neighbors) {
+      // The Active "Searchlight" line
       const scanLine = L.polyline([[edge.srcLat, edge.srcLong], [edge.destLat, edge.destLong]], {
-        className: 'edge-scanning'
+        className: 'edge-active-scan'
       }).addTo(map);
 
-      let alt = distances[u] + (mode === "price" ? edge.price : edge.duration);
+      await sleep(350);
 
+      let alt = distances[u] + (mode === "price" ? edge.price : edge.duration);
       if (alt < distances[edge.dest]) {
         distances[edge.dest] = alt;
         prev[edge.dest] = edge;
+
+        // Leave a faint "explored" line to show the web of search
+        const exploredLine = L.polyline([[edge.srcLat, edge.srcLong], [edge.destLat, edge.destLong]], {
+          className: 'edge-exploring'
+        }).addTo(map);
+        exploredLayers.push(exploredLine);
       }
 
-      await sleep(250); // Speed of the edge scan
       map.removeLayer(scanLine);
     }
-    map.removeLayer(currentMarker);
+
+    map.removeLayer(currentPulse);
+    await sleep(200);
+  }
+
+  //  BACKTRACKING PHASE (The "Decision" Trace)
+  // Clear the faint exploration lines to make the backtrack pop
+  exploredLayers.forEach(layer => map.removeLayer(layer));
+
+  let path = [];
+  let curr = endNode;
+
+  document.getElementById("itinerary-box").innerHTML = `
+    <div class="computing-text" style="color: #ff0055;">
+        > TARGET FOUND: ${endNode}<br>
+        > BACKTRACKING OPTIMAL PATH...
+    </div>`;
+
+  while (prev[curr]) {
+    let edge = prev[curr];
+    path.unshift(edge);
+
+    // Draw the backtrack segment in bold pink
+    const backtrackLine = L.polyline([[edge.srcLat, edge.srcLong], [edge.destLat, edge.destLong]], {
+      className: 'edge-backtracking'
+    }).addTo(map);
+
+    // Highlight the node being reached in the backtrack
+    const nodeHighlight = L.circleMarker([edge.srcLat, edge.srcLong], {
+      radius: 8,
+      color: '#ff0055',
+      fillColor: '#ff0055',
+      fillOpacity: 1,
+      zIndexOffset: 1000
+    }).addTo(map);
+
+    await sleep(300); // Slower pace so the user can follow the path home
+    curr = edge.src;
+  }
+
+  await sleep(500); // Dramatic pause before final UI update
+
+  // FINAL SYNC & RENDER
+  // We fetch from the backend now to ensure history and DB are updated
+  const url = `http://localhost:8080/findPath?source=${startNode}&dest=${endNode}&mode=${mode}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    window.routeData = data.currentRoute;
+    renderHistoryList(data.history);
+    renderSystem(); // Final clean render with Magenta paths and Itinerary cards
+  } catch (error) {
+    console.error("Final sync failed:", error);
   }
 }
 

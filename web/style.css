@@ -270,3 +270,44 @@ body {
     font-size: 0.8rem;
     animation: blink 0.8s infinite;
 }
+
+/* Scanning lines that stay on map until node is finalized */
+.edge-exploring {
+    stroke: var(--viz-color) !important;
+    stroke-width: 2;
+    opacity: 0.4;
+    stroke-dasharray: 4, 4;
+    transition: opacity 0.5s ease;
+}
+
+/* The current edge being relaxed */
+.edge-active-scan {
+    stroke: var(--viz-color) !important;
+    stroke-width: 4;
+    filter: drop-shadow(0 0 5px var(--viz-color));
+    animation: scan-dash 1s linear infinite;
+}
+
+/* Finalized Node (Closed Set) */
+.node-finalized {
+    fill: var(--viz-color) !important;
+    fill-opacity: 0.3;
+    stroke: var(--viz-color);
+    stroke-width: 1;
+    r: 5;
+}
+
+/* The line used during the backtrack animation */
+.edge-backtracking {
+    stroke: #ff0055 !important; /* Bright Pink/Red */
+    stroke-width: 6;
+    filter: drop-shadow(0 0 8px #ff0055);
+    stroke-dasharray: 20, 10;
+    animation: dash-confirm 0.5s reverse infinite;
+}
+
+@keyframes dash-confirm {
+    to {
+        stroke-dashoffset: 30;
+    }
+}
