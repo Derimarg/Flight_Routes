@@ -67,51 +67,76 @@ function setWeightMode(mode) {
   renderSystem();
 }
 
+function injectSVGDefs() {
+  const svg = document.querySelector("#map svg");
+  if (!svg || svg.querySelector("defs")) return;
+
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  defs.innerHTML = `
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="15" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    <marker id="arrowhead-active" viewBox="0 0 10 10" refX="12" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>`;
+  svg.appendChild(defs);
+}
+
 function renderSystem() {
   if (!map) return;
 
-  // Clear previous layers (Markers, Polylines, etc.)
+  // Clear previous layers
   map.eachLayer((l) => {
     if (l instanceof L.Path || l instanceof L.Marker) map.removeLayer(l);
   });
+
+  injectSVGDefs();
+
 
   if (typeof networkData === "undefined") return;
   const isDark = document.body.getAttribute("data-theme") === "dark";
 
   // Draw Global Network (Background Edges + Labels)
-  networkData.routes.forEach((r) => {
-    const labelText = weightMode === "price" ? `$${r.price}` : `${r.duration}m`;
+  networkData.routes.forEach((route) => {
+    const start = [route.srcLat, route.srcLong];
+    const end = [route.destLat, route.destLong];
 
-    const line = L.polyline(
-      [[r.srcLat, r.srcLong], [r.destLat, r.destLong]],
-      {
-        color: isDark ? "#374151" : "#cbd5e0",
-        weight: 2,
-        opacity: 1,
-        lineJoin: "round",
-      }
-    ).addTo(map);
+    // Draw the line with the arrowhead class
+    L.polyline([start, end], {
+      color: "var(--accent-primary)",
+      weight: 1,
+      opacity: 0.15,
+      className: "polyline-arrow"
+    }).addTo(map);
 
-    line.bindTooltip(labelText, {
-      permanent: true,
-      direction: "center",
-      className: "edge-label",
-      opacity: 0.9
-    });
+    // DRAW WEIGHT LABELS for background
+    const midLat = (route.srcLat + route.destLat) / 2;
+    const midLng = (route.srcLong + route.destLong) / 2;
+    const labelText = weightMode === "price" ? `$${route.price}` : `${route.duration}m`;
+
+    L.marker([midLat, midLng], {
+      icon: L.divIcon({
+        className: "edge-label",
+        html: labelText,
+        iconSize: [30, 15],
+        iconAnchor: [15, 7]
+      }),
+      interactive: false
+    }).addTo(map);
   });
 
-  // Draw Airports (Nodes)
+  // 2. Draw Airports (Nodes)
   networkData.airports.forEach((a) => {
     L.circleMarker([a.lat, a.lng], {
-      radius: 4,
-      fillColor: isDark ? "#00d4ff" : "#004b98",
+      radius: 5,
+      fillColor: isDark ? "#415356" : "#004b98",
       color: "#fff",
       weight: 1,
       fillOpacity: 0.8,
     }).addTo(map).bindPopup(`<b>${a.code}</b><br>${a.name}`);
   });
 
-  // Draw Active Route & Update Itinerary Card
+  // 3. Draw Active Route & Update Itinerary Card
   const itineraryBox = document.getElementById("itinerary-box");
 
   if (window.routeData && window.routeData.flights && window.routeData.flights.length > 0) {
@@ -123,24 +148,45 @@ function renderSystem() {
       const end = [f.destLat, f.destLong];
       pathCoords.push(start, end);
 
-      // look up the route in networkData to get the missing price and duration
       const matchedRoute = networkData.routes.find(r => r.src === f.src && r.dest === f.dest);
       const legPrice = matchedRoute ? matchedRoute.price : 0;
       const legDuration = matchedRoute ? matchedRoute.duration : 0;
 
-      // Map Drawing: Magenta Polylines
-      L.polyline([start, end], { color: "#CC338B", weight: 6, opacity: 1 }).addTo(map);
-
-      // Map Drawing: Markers (Orange for Start, Blue for intermediate/end)
-      L.circleMarker(start, {
-        radius: 6,
-        fillColor: i === 0 ? "#f59e0b" : "#000080",
-        color: "#fff",
-        weight: 2,
-        fillOpacity: 1,
+      // Draw active polyline with arrow
+      L.polyline([start, end], {
+        color: "#CC338B", // Magenta
+        weight: 5,
+        opacity: 1,
+        className: "active-path-arrow"
       }).addTo(map);
 
-      // UI: Build Step-by-Step Details for Card
+      // DRAW ACTIVE WEIGHT LABELS (Price or Duration)
+      const midLat = (f.srcLat + f.destLat) / 2;
+      const midLng = (f.srcLong + f.destLong) / 2;
+      const labelText = weightMode === "price" ? `$${legPrice}` : `${legDuration}m`;
+
+      L.marker([midLat, midLng], {
+        icon: L.divIcon({
+          className: "edge-label active-label", // Custom class for highlighting
+          html: labelText,
+          iconSize: [35, 18],
+          iconAnchor: [17, 9],
+          fillColor: "red"
+        }),
+        interactive: false,
+        zIndexOffset: 1000 // Ensure it's on top
+      }).addTo(map);
+
+      // Highlight nodes of the active path
+      L.circleMarker(start, {
+        radius: 6,
+        fillColor: i === 0 ? "#f59e0b" : "#CC338B",
+        color: "#f59e0b",
+        weight: 2,
+        fillOpacity: 1,
+        zIndexOffset: 1100
+      }).addTo(map);
+
       stepsHtml += `
       <div class="route-step">
           <span>${i + 1}. ${f.src} → ${f.dest}</span>
@@ -148,12 +194,10 @@ function renderSystem() {
       </div>`;
     });
 
-    // Time Formatting
+    // Update UI Card
     const totalD = window.routeData.totalDuration || 0;
     const hours = Math.floor(totalD / 60);
     const mins = totalD % 60;
-
-    // UI: Update Itinerary Card with Terminal Style
     const firstAirport = window.routeData.flights[0].src;
     const lastAirport = window.routeData.flights[window.routeData.flights.length - 1].dest;
 
@@ -172,16 +216,12 @@ function renderSystem() {
       <div class="itinerary-details">
           <strong>ROUTE DETAILS:</strong><br>
           ${stepsHtml}
-      </div>
-    `;
+      </div>`;
 
-    // Map Zoom/Pan Adjustment
     if (pathCoords.length > 0) {
       map.fitBounds(L.polyline(pathCoords).getBounds(), { padding: [50, 50] });
     }
-
   } else {
-    // UI: Reset to default if no path is found
     itineraryBox.innerHTML = `<div id="stat-line" style="font-size: 0.8rem; font-weight: bold">No active path.</div>`;
   }
 }
@@ -240,44 +280,58 @@ function renderHistoryList(historyArray) {
   const historyBox = document.getElementById("history-list");
   if (!historyBox) return;
 
-  // If there is no history data, don't clear the box; just leave the "No history" message
   if (!historyArray || historyArray.length === 0) return;
 
-  historyBox.innerHTML = ""; // Now clear it only if we have data to show
+  historyBox.innerHTML = "";
 
   historyArray.forEach((route) => {
-    // Safety check: ensure flights exist before trying to read index 0
     if (!route.flights || route.flights.length === 0) return;
 
-    const start = route.flights[0].src;
-    const end = route.flights[route.flights.length - 1].dest;
+    // Get the codes for the first and last airport in this specific history route
+    const startCode = route.flights[0].src;
+    const endCode = route.flights[route.flights.length - 1].dest;
 
     const card = document.createElement("div");
     card.className = "history-item";
 
+    // Add active styling if this route matches the current routeData
     if (window.routeData && JSON.stringify(window.routeData) === JSON.stringify(route)) {
       card.classList.add("active-history");
     }
 
-    // Format minutes for the history meta
+    // THE CLICK HANDLER
+    card.onclick = () => {
+      // 1. Update the Map & Itinerary Card
+      window.routeData = route;
+      renderSystem();
+
+      // 2. FORCE THE DROPDOWNS TO CHANGE
+      const srcSelect = document.getElementById("src-select");
+      const destSelect = document.getElementById("dest-select");
+
+      if (srcSelect && destSelect) {
+        srcSelect.value = startCode;
+        destSelect.value = endCode;
+      }
+
+      // 3. Re-render the list to update the 'active-history' border/color
+      renderHistoryList(historyArray);
+    };
+
+    // Calculate time for the card text
     const h = Math.floor(route.totalDuration / 60);
     const m = route.totalDuration % 60;
     const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
 
     card.innerHTML = `
-        <div class="history-route"><strong>${start}</strong> → <strong>${end}</strong></div>
+        <div class="history-route"><strong>${startCode}</strong> → <strong>${endCode}</strong></div>
         <div class="history-meta">$${route.totalCost.toFixed(2)} | ${timeStr}</div>
     `;
-
-    card.onclick = () => {
-      window.routeData = route;
-      renderSystem();
-      renderHistoryList(historyArray);
-    };
 
     historyBox.appendChild(card);
   });
 }
+
 
 function calculatePathOnWeb(startNode, endNode, mode) {
   const nodes = networkData.airports;

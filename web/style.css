@@ -122,22 +122,14 @@ body {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* .edge-label {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 1px 4px;
-    font-size: 10px;
-    font-weight: bold;
-    color: #333;
-    box-shadow: none;
+/* THE SPECIFIC COLOR FOR ACTIVE WEIGHTS */
+.active-label {
+    background: #cc338b !important;
+    color: white !important;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 5px rgba(204, 51, 139, 0.5);
+    z-index: 2000 !important; /* Ensure it stays on top of other labels */
 }
-
-[data-theme="dark"] .edge-label {
-    background: rgba(31, 41, 55, 0.8);
-    border-color: #4b5563;
-    color: #e5e7eb;
-} */
 
 .itinerary-card {
     background: var(--nav-bg);
@@ -210,4 +202,23 @@ body {
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: 4px;
+}
+
+/* Arrowhead for all background lines */
+.polyline-arrow {
+    marker-end: url(#arrowhead);
+}
+
+#arrowhead {
+    fill: var(--accent-primary);
+    fill-opacity: 0.6;
+}
+
+/* Arrowhead for the red active path */
+.active-path-arrow {
+    marker-end: url(#arrowhead-active);
+}
+
+#arrowhead-active {
+    fill: #cc338b;
 }
