@@ -6,6 +6,7 @@
     --text-muted: #6c757d;
     --border-color: #dee2e6;
     --accent-primary: #004b98;
+    --viz-color: #ff073a;
 }
 
 [data-theme="dark"] {
@@ -16,6 +17,7 @@
     --text-muted: #9ca3af;
     --border-color: #374151;
     --accent-primary: #00d4ff;
+    --viz-color: #00ffcc; /* Neon Cyan for Dark Mode */
 }
 
 [data-theme="dark"] .edge-label {
@@ -221,4 +223,50 @@ body {
 
 #arrowhead-active {
     fill: #cc338b;
+}
+
+/* The 'Scanning' effect for Dijkstra exploration */
+/* High-contrast scanning line */
+.edge-scanning {
+    stroke: var(--viz-color) !important;
+    stroke-width: 4 !important;
+    stroke-dasharray: 10, 5;
+    /* This creates a glow in dark mode and a subtle shadow in light mode */
+    filter: drop-shadow(0 0 3px var(--viz-color));
+    animation: scan-dash 1.2s linear infinite;
+    opacity: 0.9 !important;
+}
+
+@keyframes scan-dash {
+    to {
+        stroke-dashoffset: -15;
+    }
+}
+
+/* Glowing Pulse for the "Current" Node */
+.node-checking {
+    fill: var(--viz-color) !important;
+    stroke: #fff;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 5px var(--viz-color));
+    animation: pulse-node 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-node {
+    from {
+        r: 6;
+        opacity: 0.7;
+    }
+    to {
+        r: 10;
+        opacity: 1;
+    }
+}
+
+.computing-text {
+    color: var(--viz-color);
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.8rem;
+    animation: blink 0.8s infinite;
 }

@@ -1,5 +1,6 @@
 let weightMode = "price";
 let map, activeTiles;
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const lightLayer = L.tileLayer(
   "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -125,7 +126,7 @@ function renderSystem() {
     }).addTo(map);
   });
 
-  // 2. Draw Airports (Nodes)
+  // Draw Airports (Nodes)
   networkData.airports.forEach((a) => {
     L.circleMarker([a.lat, a.lng], {
       radius: 5,
@@ -136,7 +137,7 @@ function renderSystem() {
     }).addTo(map).bindPopup(`<b>${a.code}</b><br>${a.name}`);
   });
 
-  // 3. Draw Active Route & Update Itinerary Card
+  // Draw Active Route & Update Itinerary Card
   const itineraryBox = document.getElementById("itinerary-box");
 
   if (window.routeData && window.routeData.flights && window.routeData.flights.length > 0) {
@@ -238,39 +239,33 @@ function toggleTheme() {
 }
 
 async function handleRouteSearch() {
-  console.log("Button Clicked!");
-
   const srcSelect = document.getElementById("src-select");
   const destSelect = document.getElementById("dest-select");
-
-  if (!srcSelect || !destSelect) {
-    console.error("ERROR: Could not find the dropdown elements in the HTML!");
-    return;
-  }
-
   const src = srcSelect.value;
   const dest = destSelect.value;
-
-  console.log(`Source: ${src}, Destination: ${dest}, Mode: ${weightMode}`);
 
   if (src === dest) {
     alert("Source and Destination cannot be the same!");
     return;
   }
 
+  // START ANIMATION (This uses the local visualizeDijkstra function)
+  // This will make the map think for a few seconds
+  await visualizeDijkstra(src, dest, weightMode);
+
+  // 2. FETCH ACTUAL DATA from Java Backend
+  // We still do this to keep your History list and Database in sync!
   const url = `http://localhost:8080/findPath?source=${src}&dest=${dest}&mode=${weightMode}`;
 
   try {
     const response = await fetch(url);
-    const data = await response.json(); // Data now has { currentRoute, history }
+    const data = await response.json();
 
-    // Update the active map route
+    // FINALIZE
     window.routeData = data.currentRoute;
-
-    // Update the history list using the list Java generates
     renderHistoryList(data.history);
+    renderSystem(); // Final clean render with Magenta path
 
-    renderSystem();
   } catch (error) {
     console.error("Fetch failed", error);
   }
@@ -333,50 +328,67 @@ function renderHistoryList(historyArray) {
 }
 
 
-function calculatePathOnWeb(startNode, endNode, mode) {
+async function visualizeDijkstra(startNode, endNode, mode) {
   const nodes = networkData.airports;
   const edges = networkData.routes;
-
   let distances = {};
   let prev = {};
   let pq = new Set();
 
-  nodes.forEach(a => {
-    distances[a.code] = Infinity;
-    pq.add(a.code);
-  });
+  // Clear everything for the show
+  window.routeData = null;
+  renderSystem();
+
+  // Set up Itinerary Box with a "Terminal" feel
+  document.getElementById("itinerary-box").innerHTML = `
+        <div class="computing-text">
+            > DIJKSTRA.EXE LOADING...<br>
+            > OPTIMIZING FOR: ${mode.toUpperCase()}<br>
+            > SEARCHING PATH...
+        </div>`;
+
+  nodes.forEach(a => { distances[a.code] = Infinity; pq.add(a.code); });
   distances[startNode] = 0;
 
   while (pq.size > 0) {
     let u = Array.from(pq).reduce((min, code) =>
-      distances[code] < distances[min] ? code : min);
+      distances[code] < distances[min] ? code : min
+    );
 
+    if (distances[u] === Infinity) break;
     pq.delete(u);
-    if (u === endNode) break;
 
-    edges.filter(e => e.src === u).forEach(edge => {
+    const airport = nodes.find(n => n.code === u);
+    // Use the className so it grabs the CSS Variable color
+    const currentMarker = L.circleMarker([airport.lat, airport.lng], {
+      className: 'node-checking'
+    }).addTo(map);
+
+    await sleep(500); // Time to see the node "pop"
+
+    if (u === endNode) {
+      map.removeLayer(currentMarker);
+      break;
+    }
+
+    const neighbors = edges.filter(e => e.src === u);
+    for (const edge of neighbors) {
+      const scanLine = L.polyline([[edge.srcLat, edge.srcLong], [edge.destLat, edge.destLong]], {
+        className: 'edge-scanning'
+      }).addTo(map);
+
       let alt = distances[u] + (mode === "price" ? edge.price : edge.duration);
+
       if (alt < distances[edge.dest]) {
         distances[edge.dest] = alt;
         prev[edge.dest] = edge;
       }
-    });
-  }
 
-  // Construct the result for the map
-  let path = [];
-  let curr = endNode;
-  while (prev[curr]) {
-    path.unshift(prev[curr]);
-    curr = prev[curr].src;
+      await sleep(250); // Speed of the edge scan
+      map.removeLayer(scanLine);
+    }
+    map.removeLayer(currentMarker);
   }
-
-  // Update the routeData globally and re-render
-  window.routeData = {
-    totalCost: distances[endNode],
-    flights: path
-  };
-  renderSystem();
 }
 
 async function fetchHistory() {
