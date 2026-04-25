@@ -334,6 +334,11 @@ async function visualizeDijkstra(startNode, endNode, mode) {
   let pq = new Set();
   let exploredLayers = []; // Keep track of lines to clear later
 
+
+
+  window.routeData = null;
+  renderSystem(); // Clear map to start fresh
+
   // INITIAL UI FEEDBACK
   document.getElementById("itinerary-box").innerHTML = `
     <div class="computing-text">
@@ -341,9 +346,6 @@ async function visualizeDijkstra(startNode, endNode, mode) {
         > MODE: ${mode.toUpperCase()}<br>
         > SCANNING NETWORK...
     </div>`;
-
-  window.routeData = null;
-  renderSystem(); // Clear map to start fresh
 
   // Initialize distances
   nodes.forEach(a => {
