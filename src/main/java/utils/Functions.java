@@ -1,12 +1,13 @@
 package utils;
 
-import java.io.FileWriter;
-// libraries
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -275,64 +276,104 @@ public class Functions {
     MenuUI.printSearchResult(itinerary, source, destination, "Cheapest");
   }
 
-  public static List<Airport> identifyHubs(RouteMap routeMap, PrintWriter reportFile) {
-    if (routeMap.getAllAirports().size() == 0) return new ArrayList<>();
-
-    ArrayList<Airport> hubs = new ArrayList<>();
-    Integer highest = 0;
-
-    for (Airport ap : routeMap.getAllAirports()) {
-      Integer numDirectConnections = routeMap.getDirectConnections(ap).size();
-      if (hubs.size() == 0 || numDirectConnections > highest) {
-        hubs.clear();
-        hubs.add(ap);
-        highest = numDirectConnections;
-      } else if (numDirectConnections == highest) {
-        hubs.add(ap);
-      }
+  public static List<Airport> identifyHubs(RouteMap routeMap, int limit) {
+    if (routeMap.getAllAirports().isEmpty()) {
+      System.out.println("\n[!] Error: No airports found in the network.");
+      return new ArrayList<>();
     }
 
-    reportFile.println("Identified the following hub airport(s):");
-    for (Airport ap : hubs) {
-      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+    // Sort all airports by connection count (Highest to Lowest)
+    List<Airport> allAirports = new ArrayList<>(routeMap.getAllAirports());
+    allAirports.sort((a, b) -> {
+      int countA = routeMap.getDirectConnections(a).size();
+      int countB = routeMap.getDirectConnections(b).size();
+      return Integer.compare(countB, countA);
+    });
+
+    // Determine the actual number to show (handle out-of-bounds)
+    int actualLimit = Math.min(limit, allAirports.size());
+    List<Airport> hubs = new ArrayList<>();
+
+    // Dynamic Console Output
+    System.out.println("\n==============================================");
+    System.out.println("       TOP " + actualLimit + " NETWORK HUBS ANALYSIS");
+    System.out.println("==============================================");
+    System.out.printf("%-4s | %-8s | %-10s | %-18s%n", "#", "CODE", "FLIGHTS", "CITY");
+    System.out.println("-----|----------|------------|----------------");
+
+    for (int i = 0; i < actualLimit; i++) {
+      Airport ap = allAirports.get(i);
+      int connections = routeMap.getDirectConnections(ap).size();
+      hubs.add(ap);
+
+      System.out.printf("%-4d | %-8s | %-10d | %-18s%n",
+          (i + 1),
+          ap.getCode(),
+          connections,
+          ap.getCity());
     }
-    reportFile.println("\n");
+
     return hubs;
   }
 
-  public static void checkReachability(String startNode, RouteMap routeMap, PrintWriter reportFile) {
-    reportFile.println("Checking reachability...");
-    ArrayList<Airport> destinations = new ArrayList<>();
-    ArrayList<Airport> sources = new ArrayList<>();
-    Airport startAirport = routeMap.getAirport(startNode);
+  public static Set<Airport> getReachability(String startNode, RouteMap routeMap) {
+    Airport startAirport = routeMap.getAirport(startNode.trim());
+    if (startAirport == null)
+      return null;
 
-    if (startAirport == null) {
-      reportFile.println("Could not find airport: " + startNode);
-      return;
-    }
+    Set<Airport> reachable = new HashSet<>();
+    Queue<Airport> queue = new LinkedList<>();
+    queue.add(startAirport);
+    reachable.add(startAirport);
 
-    for (Flight fl : routeMap.getDirectConnections(startAirport)) {
-      destinations.add(fl.getDestination());
-    }
-
-    for (Airport ap : routeMap.getAllAirports()) {
-      if (ap.equals(startAirport)) continue;
-      for (Flight fl : routeMap.getDirectConnections(ap)) {
-        if (fl.getDestination().equals(routeMap.getAirport(startNode))) {
-          sources.add(fl.getSource());
+    while (!queue.isEmpty()) {
+      Airport current = queue.poll();
+      for (Flight fl : routeMap.getDirectConnections(current)) {
+        Airport dest = fl.getDestination();
+        if (!reachable.contains(dest)) {
+          reachable.add(dest);
+          queue.add(dest);
         }
       }
     }
+    return reachable;
+  }
 
-    reportFile.println(startNode + " can reach the following:");
-    for (Airport ap : destinations) {
-      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+  public static void printReachabilitySummary(Airport start, Set<Airport> reachable, int totalCount) {
+    int unreachableCount = totalCount - reachable.size();
+    System.out.println("\n" + "=".repeat(50));
+    System.out.printf(" ORIGIN:      %s (%s)%n", start.getCode(), start.getCity());
+    System.out.printf(" REACHABLE:   %d airports%n", reachable.size());
+    System.out.printf(" UNREACHABLE: %d airports%n", unreachableCount);
+    System.out.println("=".repeat(50));
+  }
+
+  public static void printCategorizedLists(Set<Airport> reachable, List<Airport> allAirports) {
+    List<Airport> unreachable = new ArrayList<>();
+    for (Airport ap : allAirports) {
+      if (!reachable.contains(ap))
+        unreachable.add(ap);
     }
-    reportFile.println("\n" + startNode + " can be reached by the following:");
-    for (Airport ap : sources) {
-      reportFile.println(ap.getCode() + " - " + ap.getCity() + ", " + ap.getCountry());
+
+    // UNREACHABLE
+    if (!unreachable.isEmpty()) {
+      System.out.println("\n[✘] UNREACHABLE DESTINATIONS (CRITICAL)");
+      System.out.println("-".repeat(50));
+      System.out.printf("%-8s | %-20s | %-15s%n", "CODE", "CITY", "COUNTRY");
+      for (Airport ap : unreachable) {
+        System.out.printf("%-8s | %-20s | %-15s%n", ap.getCode(), ap.getCity(), ap.getCountry());
+      }
+    } else {
+      System.out.println("\n[✔] ALL DESTINATIONS ARE REACHABLE");
     }
-    reportFile.println("\n");
+
+    // REACHABLE
+    System.out.println("\n[✔] REACHABLE DESTINATIONS");
+    System.out.println("-".repeat(50));
+    System.out.printf("%-8s | %-20s | %-15s%n", "CODE", "CITY", "COUNTRY");
+    for (Airport ap : reachable) {
+      System.out.printf("%-8s | %-20s | %-15s%n", ap.getCode(), ap.getCity(), ap.getCountry());
+    }
   }
 
   // Vertices and Edges representation for web map

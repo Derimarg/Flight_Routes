@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import io.javalin.Javalin;
+import model.Airport;
 import model.Itinerary;
 import service.RouteFinder;
 import service.RouteMap;
@@ -134,19 +136,44 @@ public class Main {
               Functions.getShortestPath(srcFast, destFast, routeMap, reportFile);
             }
 
-            case 3 -> {
-              System.out.println("Analyzing hub data...");
-              System.out.println("\nComputing optimal vertices...");
-              // Add a finHibs methos in Functions
-              Functions.identifyHubs(routeMap, reportFile);
+            case 3 -> { // Add a finHubs methos in Functions
+              System.out.print("How many top hubs would you like to see? ");
+              try {
+                int userLimit = input.nextInt();
+
+                if (userLimit <= 0) {
+                  System.out.println("Please enter a positive number.");
+                } else {
+                  Functions.identifyHubs(routeMap, userLimit);
+                }
+              } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+              }
 
             }
 
             case 4 -> {
-              System.out.println("Enter starting airport to check connectivity: ");
-              String startNode = input.nextLine().toUpperCase();
-              System.out.println("\nComputing optimal vertices...");
-              Functions.checkReachability(startNode, routeMap, reportFile);
+              System.out.print("Enter airport code: ");
+              String code = input.next().toUpperCase();
+
+              // Calculate BFS once
+              Set<Airport> reachableSet = Functions.getReachability(code, routeMap);
+              Airport startAp = routeMap.getAirport(code);
+
+              if (startAp == null) {
+                System.out.println("\n[!] Error: Could not find airport " + code.toUpperCase());
+              } else {
+                // Display Summary report
+                Functions.printReachabilitySummary(startAp, reachableSet, routeMap.getAllAirports().size());
+
+                // Ask for the Full Report
+                System.out.print("Would you like to see the detailed connectivity lists? (y/n): ");
+                if (input.next().equalsIgnoreCase("y")) {
+                  // Display Unreachable FIRST, then Reachable
+                  Functions.printCategorizedLists(reachableSet, new ArrayList<>(routeMap.getAllAirports()));
+                }
+              }
+
             }
 
             case 5 -> {

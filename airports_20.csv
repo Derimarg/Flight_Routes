@@ -1,0 +1,20 @@
+name,latitude_deg,longitude_deg,elevation_ft,continent,iso_country,iso_region,municipality,scheduled_service,icao_code,iata_code
+Hartsfield-Jackson Atlanta International Airport,33.6407,-84.4277,1026,NA,US,US-GA,Atlanta,yes,KATL,ATL
+Los Angeles International Airport,33.9416,-118.4085,125,NA,US,US-CA,Los Angeles,yes,KLAX,LAX
+Chicago O'Hare International Airport,41.9742,-87.9073,672,NA,US,US-IL,Chicago,yes,KORD,ORD
+Dallas/Fort Worth International Airport,32.8998,-97.0403,607,NA,US,US-TX,Dallas,yes,KDFW,DFW
+Denver International Airport,39.8561,-104.6737,5431,NA,US,US-CO,Denver,yes,KDEN,DEN
+John F. Kennedy International Airport,40.6413,-73.7781,13,NA,US,US-NY,New York,yes,KJFK,JFK
+San Francisco International Airport,37.6213,-122.379,13,NA,US,US-CA,San Francisco,yes,KSFO,SFO
+Seattle-Tacoma International Airport,47.4502,-122.3088,433,NA,US,US-WA,Seattle,yes,KSEA,SEA
+Harry Reid International Airport,36.084,-115.1537,2181,NA,US,US-NV,Las Vegas,yes,KLAS,LAS
+Orlando International Airport,28.4294,-81.3089,96,NA,US,US-FL,Orlando,yes,KMCO,MCO
+Miami International Airport,25.7959,-80.287,8,NA,US,US-FL,Miami,yes,KMIA,MIA
+Phoenix Sky Harbor International Airport,33.4342,-112.008,1135,NA,US,US-AZ,Phoenix,yes,KPHX,PHX
+Newark Liberty International Airport,40.6895,-74.1745,18,NA,US,US-NJ,Newark,yes,KEWR,EWR
+George Bush Intercontinental Airport,29.9804,-95.3397,97,NA,US,US-TX,Houston,yes,KIAH,IAH
+Logan International Airport,42.3656,-71.0096,20,NA,US,US-MA,Boston,yes,KBOS,BOS
+Philadelphia International Airport,39.8719,-75.2411,36,NA,US,US-PA,Philadelphia,yes,KPHL,PHL
+Minneapolis-St. Paul International Airport,44.8819,-93.2217,841,NA,US,US-MN,Minneapolis,yes,KMSP,MSP
+Detroit Metropolitan Airport,42.2124,-83.3533,645,NA,US,US-MI,Detroit,yes,KDTW,DTW
+Fort Lauderdale-Hollywood International Airport,26.0726,-80.1527,9,NA,US,US-FL,Fort Lauderdale,yes,KFLL,FLL

@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Airport;
 import model.Flight;
@@ -19,7 +21,7 @@ public class DataLoader {
   // POST: airports list is populated with data from the csv file, reportWriter
   // and errWriter are used to log the process
   public static void parseAirportData(List<Airport> airports, PrintWriter reportWriter, PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("airports_2.csv", errWriter);
+    List<String[]> rawLines = getRawData("airports_20.csv", errWriter);
 
     for (String[] parts : rawLines) {
       if (parts.length < 11) // 3
@@ -46,47 +48,43 @@ public class DataLoader {
   // and errWriter are used to log the process
   public static void parseFlightRoutesData(List<Airport> airports, List<Flight> flights, PrintWriter reportWriter,
       PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("flight_routes_3.csv", errWriter);
+    List<String[]> rawLines = getRawData("flight_routes.csv", errWriter);
     int successCount = 0;
 
-    for (String[] parts : rawLines) {
-
-      if (parts.length < 4) // 5
-        continue; // skip lines that don't have the expected format
-
-      String sourceCode = parts[0].trim();
-      String destinationCode = parts[1].trim();
-      Airport source = null;
-      Airport destination = null;
-
-      for (Airport airport : airports) {
-        if (airport.getCode().equalsIgnoreCase(sourceCode))
-          source = airport;
-
-        if (airport.getCode().equalsIgnoreCase(destinationCode))
-          destination = airport;
-      }
-
-      String price = parts[2];
-      String durationStr = parts[3];
-
-      // Validate and parse duration
-      int durationMinutes;
-      try {
-        durationMinutes = Integer.parseInt(durationStr);
-      } catch (NumberFormatException e) {
-        errWriter.println("Invalid duration for flight " + sourceCode + "->" + destinationCode + ": " + durationStr);
-        continue; // skip this flight if duration is invalid
-      }
-
-      // Create a Flight object (assuming a Flight class exists)
-      if (source != null && destination != null) {
-        flights.add(new Flight(source, destination, Double.parseDouble(price), durationMinutes, null));
-        successCount++;
-      }
-
+    // Build a temporary map to find airports instantly by their code
+    Map<String, Airport> lookup = new HashMap<>();
+    for (Airport a : airports) {
+      lookup.put(a.getCode().toUpperCase(), a);
     }
-    System.out.println("Loaded flights...");
+
+    for (String[] parts : rawLines) {
+      // check for empty rows
+      if (parts.length >= 4 && !parts[0].isEmpty() && !parts[1].isEmpty()) {
+
+        String sourceCode = parts[0].trim().toUpperCase();
+        String destinationCode = parts[1].trim().toUpperCase();
+
+        Airport source = lookup.get(sourceCode);
+        Airport destination = lookup.get(destinationCode);
+
+        try {
+          // Parse both numbers
+          double price = Double.parseDouble(parts[2].trim());
+          int durationMinutes = Integer.parseInt(parts[3].trim());
+
+          if (source != null && destination != null) {
+            flights.add(new Flight(source, destination, price, durationMinutes, null));
+            successCount++;
+          } else {
+            // Log if a flight references an airport code not in airports.csv
+            errWriter.println("Missing Airport Object for codes: " + sourceCode + " or " + destinationCode);
+          }
+        } catch (NumberFormatException e) {
+          errWriter.println("Invalid numeric data for flight " + sourceCode + "->" + destinationCode);
+        }
+      }
+    }
+    System.out.println("Loaded " + successCount + " flights.");
   }
 
   // PRE: fileName is the name of a valid csv file, errWriter is ready to use
@@ -107,12 +105,14 @@ public class DataLoader {
         // Split by comma only if not inside quotes
         String[] parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-        // Clean up each par, remove external quotes and whitespace
-        for (int i = 0; i < parts.length; i++) {
-          parts[i] = parts[i].replace("\"", "").trim();
-        }
+        if (parts.length > 0) {
+          // Clean up each par, remove external quotes and whitespace
+          for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].replace("\"", "").trim();
+          }
 
-        data.add(parts);
+          data.add(parts);
+        }
       }
 
     } catch (IOException e) {
