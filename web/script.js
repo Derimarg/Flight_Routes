@@ -249,82 +249,10 @@ async function handleRouteSearch() {
     return;
   }
 
-  // START ANIMATION (This uses the local visualizeDijkstra function)
+  // Only call the visualizer. 
+  // It handles the backend sync and the final render itself.
   await visualizeDijkstra(src, dest, weightMode);
-
-  // FETCH ACTUAL DATA from Java Backend
-  const url = `http://localhost:8080/findPath?source=${src}&dest=${dest}&mode=${weightMode}`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    // FINALIZE
-    window.routeData = data.currentRoute;
-    renderHistoryList(data.history);
-    renderSystem(); // Final clean render with Magenta path
-
-  } catch (error) {
-    console.error("Fetch failed", error);
-  }
 }
-
-function renderHistoryList(historyArray) {
-  const historyBox = document.getElementById("history-list");
-  if (!historyBox) return;
-
-  if (!historyArray || historyArray.length === 0) return;
-
-  historyBox.innerHTML = "";
-
-  historyArray.forEach((route) => {
-    if (!route.flights || route.flights.length === 0) return;
-
-    // Get the codes for the first and last airport in this specific history route
-    const startCode = route.flights[0].src;
-    const endCode = route.flights[route.flights.length - 1].dest;
-
-    const card = document.createElement("div");
-    card.className = "history-item";
-
-    // Add active styling if this route matches the current routeData
-    if (window.routeData && JSON.stringify(window.routeData) === JSON.stringify(route)) {
-      card.classList.add("active-history");
-    }
-
-    // THE CLICK HANDLER
-    card.onclick = () => {
-      // Update the Map & Itinerary Card
-      window.routeData = route;
-      renderSystem();
-
-      // FORCE THE DROPDOWNS TO CHANGE
-      const srcSelect = document.getElementById("src-select");
-      const destSelect = document.getElementById("dest-select");
-
-      if (srcSelect && destSelect) {
-        srcSelect.value = startCode;
-        destSelect.value = endCode;
-      }
-
-      // Re-render the list to update the 'active-history' border/color
-      renderHistoryList(historyArray);
-    };
-
-    // Calculate time for the card text
-    const h = Math.floor(route.totalDuration / 60);
-    const m = route.totalDuration % 60;
-    const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
-
-    card.innerHTML = `
-        <div class="history-route"><strong>${startCode}</strong> → <strong>${endCode}</strong></div>
-        <div class="history-meta">$${route.totalCost.toFixed(2)} | ${timeStr}</div>
-    `;
-
-    historyBox.appendChild(card);
-  });
-}
-
 
 async function visualizeDijkstra(startNode, endNode, mode) {
   const nodes = networkData.airports;
@@ -439,7 +367,7 @@ async function visualizeDijkstra(startNode, endNode, mode) {
       zIndexOffset: 1000
     }).addTo(map);
 
-    await sleep(300); // Slower pace so the user can follow the path home
+    await sleep(150); // Slower pace so the user can follow the path home
     curr = edge.src;
   }
 
@@ -472,4 +400,49 @@ async function fetchHistory() {
   } catch (e) {
     console.error("History load failed:", e);
   }
+}
+
+function renderHistoryList(historyArray) {
+  const historyBox = document.getElementById("history-list");
+  if (!historyBox) return;
+
+
+  historyBox.innerHTML = "";
+
+  if (!historyArray || historyArray.length === 0) {
+    historyBox.innerHTML = `<div style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">No history yet.</div>`;
+    return;
+  }
+
+  historyArray.forEach((route) => {
+    if (!route.flights || route.flights.length === 0) return;
+
+    const startCode = route.flights[0].src;
+    const endCode = route.flights[route.flights.length - 1].dest;
+
+    const card = document.createElement("div");
+    card.className = "history-item";
+
+    // Keep your existing logic for active-history and onclick...
+    if (window.routeData && JSON.stringify(window.routeData) === JSON.stringify(route)) {
+      card.classList.add("active-history");
+    }
+
+    card.onclick = () => {
+      window.routeData = route;
+      renderSystem();
+      document.getElementById("src-select").value = startCode;
+      document.getElementById("dest-select").value = endCode;
+      renderHistoryList(historyArray);
+    };
+
+    const h = Math.floor(route.totalDuration / 60);
+    const m = route.totalDuration % 60;
+    card.innerHTML = `
+        <div class="history-route"><strong>${startCode}</strong> → <strong>${endCode}</strong></div>
+        <div class="history-meta">$${route.totalCost.toFixed(2)} | ${h}h ${m}m</div>
+    `;
+
+    historyBox.appendChild(card);
+  });
 }

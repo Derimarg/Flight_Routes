@@ -21,7 +21,7 @@ public class DataLoader {
   // POST: airports list is populated with data from the csv file, reportWriter
   // and errWriter are used to log the process
   public static void parseAirportData(List<Airport> airports, PrintWriter reportWriter, PrintWriter errWriter) {
-    List<String[]> rawLines = getRawData("airports_20.csv", errWriter);
+    List<String[]> rawLines = getRawData("airports.csv", errWriter);
 
     for (String[] parts : rawLines) {
       if (parts.length < 11) // 3
