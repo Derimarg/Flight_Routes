@@ -315,7 +315,7 @@ async function visualizeDijkstra(startNode, endNode, mode) {
         className: 'edge-active-scan'
       }).addTo(map);
 
-      await sleep(350);
+      await sleep(100);
 
       let alt = distances[u] + (mode === "price" ? edge.price : edge.duration);
       if (alt < distances[edge.dest]) {
@@ -333,7 +333,7 @@ async function visualizeDijkstra(startNode, endNode, mode) {
     }
 
     map.removeLayer(currentPulse);
-    await sleep(200);
+    await sleep(100);
   }
 
   //  BACKTRACKING PHASE (The "Decision" Trace)
