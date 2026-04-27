@@ -105,8 +105,8 @@ function renderSystem() {
     // Draw the line with the arrowhead class
     L.polyline([start, end], {
       color: "var(--accent-primary)",
-      weight: 1,
-      opacity: 0.15,
+      weight: 1.5,
+      opacity: 0.3,
       className: "polyline-arrow"
     }).addTo(map);
 
@@ -275,6 +275,8 @@ async function visualizeDijkstra(startNode, endNode, mode) {
         > SCANNING NETWORK...
     </div>`;
 
+  await sleep(200);
+
   // Initialize distances
   nodes.forEach(a => {
     distances[a.code] = Infinity;
@@ -349,6 +351,8 @@ async function visualizeDijkstra(startNode, endNode, mode) {
         > BACKTRACKING OPTIMAL PATH...
     </div>`;
 
+  await sleep(200);
+
   while (prev[curr]) {
     let edge = prev[curr];
     path.unshift(edge);
@@ -367,7 +371,7 @@ async function visualizeDijkstra(startNode, endNode, mode) {
       zIndexOffset: 1000
     }).addTo(map);
 
-    await sleep(150); // Slower pace so the user can follow the path home
+    await sleep(450); // Slower pace so the user can follow the path home
     curr = edge.src;
   }
 

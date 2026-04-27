@@ -109,8 +109,15 @@ public class Main {
         while (running) {
           System.out.println("=".repeat(50));
           System.out.print("COMMAND > ");
-          int choice = input.nextInt();
-          input.nextLine(); // Clear buffer
+          String rawInput = input.nextLine(); // Read the whole line as a String
+          int choice;
+
+          try {
+            choice = Integer.parseInt(rawInput); // Try to convert it to a number
+          } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number (1-5).");
+            continue; // Skip the rest of the loop and ask for COMMAND again
+          }
 
           switch (choice) {
             case 1 -> {

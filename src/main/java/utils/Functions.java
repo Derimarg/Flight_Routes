@@ -50,8 +50,8 @@ public class Functions {
     // loaded routes
     toggleTheme();
     exportFullNetwork(routeMap);
-    // Functions.displayRoutes(routeMap, reportFile, errorFile);
-
+    // Display static map visualizer
+    Functions.displayRoutes(routeMap, reportFile, errorFile);
   }
 
   // PRE: routes map, reportFile and errorFile ready to use
